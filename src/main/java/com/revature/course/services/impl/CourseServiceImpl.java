@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.stream.Stream;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.revature.course.dao.CourseDAO;
@@ -21,9 +19,8 @@ import com.revature.course.util.CourseDTOValidator;
 import com.revature.course.util.ReferenceArtifactsDTOValidator;
 import com.revature.course.util.ReferenceUrlDTOValidator;
 
-
 @Service
-public class CourseServiceImpl implements CourseService{
+public class CourseServiceImpl implements CourseService {
 	@Autowired
 	private CourseDAO courseRepository;
 
@@ -32,15 +29,15 @@ public class CourseServiceImpl implements CourseService{
 
 	@Autowired
 	private ReferenceUrlService referenceUrlServices;
-
+	
 	public boolean addCourse(CourseDTO courseDTO) throws ServiceException, ValidatorException {
 		CourseDTOValidator courseDTOValidator = new CourseDTOValidator();
 		courseDTOValidator.courseDtoValidator(courseDTO);
-		ReferenceArtifactsDTOValidator referenceArtifactsDTOValidator=new ReferenceArtifactsDTOValidator();
+		ReferenceArtifactsDTOValidator referenceArtifactsDTOValidator = new ReferenceArtifactsDTOValidator();
 		referenceArtifactsDTOValidator.referenceArtifactsDTOListValidator(courseDTO.getReferenceArtifactsId());
-		ReferenceUrlDTOValidator referenceUrlDTOValidator=new ReferenceUrlDTOValidator();
+		ReferenceUrlDTOValidator referenceUrlDTOValidator = new ReferenceUrlDTOValidator();
 		referenceUrlDTOValidator.referenceUrlDTOListValidator(courseDTO.getRefernceUrlId());
-	
+
 		// File fs=new File("C:/Users/Revature1/Downloads/jaf-1_1_1.zip");
 		File fs = new File("C:/Users/Revature1/Downloads/rev-logo-2.png");
 		try {
@@ -64,9 +61,21 @@ public class CourseServiceImpl implements CourseService{
 		return status;
 	}
 
-	public List<CourseDTO> viewCourses(String orderBy,String sortBy,int maxRows,int startIndex) throws ServiceException {
-		List<CourseDTO> courseList = courseRepository.viewCourses(orderBy,sortBy,maxRows,startIndex);
+	public List<CourseDTO> viewCourses(String orderBy, String sortBy, int maxRows, int startIndex)
+			throws ServiceException {
+		List<CourseDTO> courseList = courseRepository.viewCourses(orderBy, sortBy, maxRows, startIndex);
 		if (!courseList.isEmpty()) {
+			/*
+			Stream<CourseDTO> courseListDto=courseList.stream();		
+			courseListDto.forEach(p-> {
+				List<ReferenceArtifactsDTO> referenceArtifactsDTOList = referenceArtifactsServices
+							.viewReferenceArtifactsById(p.getId());
+				p.setReferenceArtifactsId(referenceArtifactsDTOList);
+				List<ReferenceUrlDTO> referenceUrlDTOList = referenceUrlServices
+						.viewReferenceUrlById(p.getId());
+				p.setRefernceUrlId(referenceUrlDTOList);
+			});
+			*/
 			for (CourseDTO courseListDto : courseList) {
 				List<ReferenceArtifactsDTO> referenceArtifactsDTOList = referenceArtifactsServices
 						.viewReferenceArtifactsById(courseListDto.getId());
@@ -95,26 +104,29 @@ public class CourseServiceImpl implements CourseService{
 			throw new ServiceException("course not available");
 		}
 
-		return course;
+		return course; 
 	}
 
 	public boolean updateCourse(CourseDTO courseDTO) throws ServiceException, ValidatorException {
 		boolean status = true;
 		CourseDTOValidator courseDTOValidator = new CourseDTOValidator();
 		courseDTOValidator.courseDtoValidator(courseDTO);
-		if( viewCourseById(courseDTO.getId()).getId()==courseDTO.getId()) {
-		int result = courseRepository.updateCourse(courseDTO);
-		if (result == 0) {
-			status = false;
-			throw new ServiceException("unable to update course");
-		}
-		return status;
-	}
-		else 
-		{
+		ReferenceArtifactsDTOValidator referenceArtifactsDTOValidator = new ReferenceArtifactsDTOValidator();
+		referenceArtifactsDTOValidator.referenceArtifactsDTOListValidator(courseDTO.getReferenceArtifactsId());
+		ReferenceUrlDTOValidator referenceUrlDTOValidator = new ReferenceUrlDTOValidator();
+		referenceUrlDTOValidator.referenceUrlDTOListValidator(courseDTO.getRefernceUrlId());
+		if (viewCourseById(courseDTO.getId()).getId() == courseDTO.getId()) {
+			int result = courseRepository.updateCourse(courseDTO);
+			if (result == 0) {
+				status = false;
+				throw new ServiceException("unable to update course");
+			}
+			return status;
+		} else {
 			throw new ServiceException("details not available.");
 		}
 	}
+
 	public boolean deleteCourseById(int id) throws ServiceException {
 		return courseRepository.deleteCourseById(id);
 	}

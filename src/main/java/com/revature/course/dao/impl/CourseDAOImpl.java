@@ -214,24 +214,23 @@ public class CourseDAOImpl implements CourseDAO {
 			File fs = new File("C:/Users/Revature1/Downloads/rev-logo-2.png");
 			fis = new FileInputStream(fs);
 			String fileName = fs.getName();
-			sql = "update courses set name=?,level_id=?,category_id=?,tags=?,slug=?,is_level_over_ride=?,enrollment_point=?,completion_point=?,is_presignup=?,is_loggedin_via_slug=?,description=?,meta_keyword=?,meta_description=?,icon=?,icon_name=?,modified_on=CURRENT_TIMESTAMP,version=version+1 where id=?";
+			sql = "update courses set level_id=?,category_id=?,tags=?,slug=?,is_level_over_ride=?,enrollment_point=?,completion_point=?,is_presignup=?,is_loggedin_via_slug=?,description=?,meta_keyword=?,meta_description=?,icon=?,icon_name=?,modified_on=CURRENT_TIMESTAMP,version=version+1 where id=?";
 			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setString(1, courseDTO.getName());
-			preparedStatement.setInt(2, courseDTO.getLevel().getId());
-			preparedStatement.setInt(3, courseDTO.getCategory().getId());
-			preparedStatement.setString(4, courseDTO.getTags());
-			preparedStatement.setString(5, courseDTO.getSlug());
-			preparedStatement.setBoolean(6, courseDTO.isLevelOverRide());
-			preparedStatement.setInt(7, courseDTO.getEnrollmentPoint());
-			preparedStatement.setInt(8, courseDTO.getCompletionPoint());
-			preparedStatement.setBoolean(9, courseDTO.isPreSignUp());
-			preparedStatement.setBoolean(10, courseDTO.isLoggedInViaSlug());
-			preparedStatement.setString(11, courseDTO.getDescription());
-			preparedStatement.setString(12, courseDTO.getMetaKeyword());
-			preparedStatement.setString(13, courseDTO.getMetaDescription());
-			preparedStatement.setBlob(14, fis);
-			preparedStatement.setString(15, fileName);
-			preparedStatement.setInt(16, courseDTO.getId());
+			preparedStatement.setInt(1, courseDTO.getLevel().getId());
+			preparedStatement.setInt(2, courseDTO.getCategory().getId());
+			preparedStatement.setString(3, courseDTO.getTags());
+			preparedStatement.setString(4, courseDTO.getSlug());
+			preparedStatement.setBoolean(5, courseDTO.isLevelOverRide());
+			preparedStatement.setInt(6, courseDTO.getEnrollmentPoint());
+			preparedStatement.setInt(7, courseDTO.getCompletionPoint());
+			preparedStatement.setBoolean(8, courseDTO.isPreSignUp());
+			preparedStatement.setBoolean(9, courseDTO.isLoggedInViaSlug());
+			preparedStatement.setString(10, courseDTO.getDescription());
+			preparedStatement.setString(11, courseDTO.getMetaKeyword());
+			preparedStatement.setString(12, courseDTO.getMetaDescription());
+			preparedStatement.setBlob(13, fis);
+			preparedStatement.setString(14, fileName);
+			preparedStatement.setInt(15, courseDTO.getId());
 			result = preparedStatement.executeUpdate();
 
 			fs = new File("C:/Users/Revature1/Downloads/jaf-1_1_1.zip");
@@ -267,10 +266,12 @@ public class CourseDAOImpl implements CourseDAO {
 			connection.commit();
 		} catch (SQLException e) {
 			rollBackOperation(connection);
+			e.printStackTrace();
 			throw new DBException("unable to update course.");
 
 		} catch (Exception e) {
 			rollBackOperation(connection);
+			e.printStackTrace();
 			throw new DBException("unable to update course.");
 		} finally {
 			try {

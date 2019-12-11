@@ -50,7 +50,7 @@ class CourseDAOImplTest {
 	}
 
 	@Test
-	public void testViewCourseByIdInvalid() {
+	public void testViewCourseByIdInvalid() {					
 		int id=1;
 		CourseDTO coursesList=courseDAO.viewCourseById(id);
 		assertNull(coursesList);
