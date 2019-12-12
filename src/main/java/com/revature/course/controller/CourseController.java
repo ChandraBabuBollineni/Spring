@@ -88,7 +88,7 @@ public class CourseController {
 			@ApiResponse(code = 400, message = "unable to update course", response = Message.class) })
 	public ResponseEntity<Object> updateCourse(@RequestBody CourseDTO courseDTO) {
 		try {
-			boolean status = courseServices.updateCourse(courseDTO);
+			boolean status = courseServices.updateCourse(courseDTO); 
 			if (status) {
 				Message message = new Message("successfully updated course");
 				return new ResponseEntity<>(message, HttpStatus.OK);

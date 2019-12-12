@@ -18,11 +18,17 @@ import com.revature.course.junitTests.util.CourseDTOUtil;
 public class CourseDAOImplTest {
 	
 	private CourseDAOImpl courseDAO=new CourseDAOImpl();	
-	
+	@Test
 	public void testAddCourse() {
+		Throwable exception = assertThrows(DBException.class, () -> 
+	    {
 		CourseDTO courseDTO=CourseDTOUtil.getCourseDTODetails();
+		courseDTO.setName("c#");
 		int result=courseDAO.addCourse(courseDTO);
+		System.out.println(result);
 		assertTrue(result!=0);
+	    });
+	    assertEquals("Unable to add courses", exception.getMessage());
 	}
 
 	@Test
@@ -57,19 +63,18 @@ public class CourseDAOImplTest {
 	public void testDeleteCourseById() {
 		Throwable exception = assertThrows(DBException.class, () -> 
 	    {
-		int id=9;
+		int id=11;
 		boolean status=courseDAO.deleteCourseById(id);
 		assertTrue(status);
 	    });
 	    assertEquals("Unable to delete course", exception.getMessage());
 	}
 	
-	@Test
+	@Test(expected=DBException.class)
 	public void testDeleteCourseByIdInvalid() {
-		/* exceptionRule.expect(DBException.class);
 		int id=1;
 		boolean status=courseDAO.deleteCourseById(id);
-		assertFalse(status);*/
+		assertFalse(status);
 	}
 
 	@Test

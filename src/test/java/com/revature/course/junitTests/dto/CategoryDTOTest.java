@@ -2,16 +2,18 @@ package com.revature.course.junitTests.dto;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import com.revature.course.dto.CategoryDTO;
 import org.junit.Test;
 
 
 public class CategoryDTOTest {
 	private CategoryDTO categoryDTO=new CategoryDTO();
-	private CategoryDTO categoryDTO1=new CategoryDTO();
 	@Test
-	public void testHashCode() {
-		assertTrue( categoryDTO.hashCode()==categoryDTO1.hashCode() );
+	public void testHashCode() { 
+		categoryDTO.setId(1);
+		CategoryDTO categoryDTO1=new CategoryDTO();
+		assertFalse( categoryDTO.hashCode()==categoryDTO1.hashCode());
 	}
 
 	@Test
@@ -22,15 +24,18 @@ public class CategoryDTOTest {
 
 	@Test
 	public void testEqualsObject() {
+		CategoryDTO categoryDTO1=new CategoryDTO();
 		 assertTrue(categoryDTO.equals(categoryDTO1));
 	}
 
 
 	@Test
 	public void testToString() {
+		CategoryDTO categoryDTO1=new CategoryDTO();
 		System.out.println(categoryDTO.toString());
 		System.out.println(categoryDTO1.toString());
 		assertEquals(categoryDTO.toString(), categoryDTO1.toString());
+		
 		}
 
 }

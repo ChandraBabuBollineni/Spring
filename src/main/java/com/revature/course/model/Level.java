@@ -16,4 +16,6 @@ public class Level {
 	private int id;
 	@Column(name = "name")
 	private String name;
+	@Column(name = "is_active")
+	private boolean active;
 }
