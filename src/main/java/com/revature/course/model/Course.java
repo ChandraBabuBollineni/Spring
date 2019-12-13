@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +13,6 @@ import javax.persistence.OneToOne;
 import lombok.Data;
 
 @Data
-@Entity
 public class Course {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,12 +58,10 @@ public class Course {
 	@Column(name = "icon")
 	private File icon;
 
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "reference_artifacts_id")
+	
 	private List<ReferenceArtifacts> referenceArtifactsId;
 
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "refernce_url_id")
+	
 	private List<ReferenceUrl> refernceUrlId;
 
 	@OneToOne(fetch = FetchType.EAGER)

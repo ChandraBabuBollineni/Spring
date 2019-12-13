@@ -29,8 +29,6 @@ public class LevelDTOTest {
 	@Test
 	public void testToString() {
 		LevelDTO levelDTO1=new LevelDTO();
-		System.out.println(levelDTO.toString());
-		System.out.println(levelDTO1.toString());
-		assertEquals(levelDTO.toString(), levelDTO.toString());
+		assertEquals(levelDTO.toString(), levelDTO1.toString());
 	}
 }

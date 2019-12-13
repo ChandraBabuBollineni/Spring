@@ -4,16 +4,17 @@ import java.sql.Connection;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 import com.revature.course.dto.CourseDTO;
+import com.revature.course.model.Course;
 
 @Repository
 public interface CourseDAO {
-	public int addCourse(CourseDTO courseDTO);
+	public int addCourse(Course course);
 
-	public List<CourseDTO> viewCourses(String orderBy,String sortBy,int maxRows,int startIndex);
+	public List<Course> viewCourses(String orderBy,String sortBy,int maxRows,int startIndex);
 
-	public CourseDTO viewCourseById(int id);
+	public Course viewCourseById(int id);
 
-	public int updateCourse(CourseDTO courseDTO);
+	public int updateCourse(Course course);
 
 	public boolean deleteCourseById(int id);
 

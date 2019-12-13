@@ -9,7 +9,7 @@ private ReferenceArtifactsDTO referenceArtifactsDTO=new ReferenceArtifactsDTO();
 	@Test
 	public void testHashCode() {
 		ReferenceArtifactsDTO referenceArtifactsDTO1=new ReferenceArtifactsDTO();
-		assertEquals(referenceArtifactsDTO, referenceArtifactsDTO1);
+		assertEquals(referenceArtifactsDTO.hashCode(), referenceArtifactsDTO1.hashCode());
 	}
 
 	@Test

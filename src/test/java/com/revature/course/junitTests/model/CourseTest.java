@@ -2,16 +2,12 @@ package com.revature.course.junitTests.model;
 
 import static org.junit.Assert.*;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import com.revature.course.model.Category;
 import com.revature.course.model.Course;
 import com.revature.course.model.CourseUsers;
 import com.revature.course.model.Level;
-import com.revature.course.model.ReferenceArtifacts;
-import com.revature.course.model.ReferenceUrl;
 
 public class CourseTest {
 
@@ -118,9 +114,8 @@ public class CourseTest {
 		assertEquals("It is meta description.", course.getMetaDescription());
 	}
 
-	@Test
+	/*@Test
 	public void testGetReferenceArtifactsId() {
-		List<ReferenceArtifacts> referenceArtifactsList=new ArrayList<ReferenceArtifacts>();
 		ReferenceArtifacts referenceArtifacts=new ReferenceArtifacts();
 		referenceArtifacts.setId(1);
 		referenceArtifacts.setName("JAVA");
@@ -128,14 +123,12 @@ public class CourseTest {
 		referenceArtifacts.setCourseId(1);
 		referenceArtifacts.setFileName("java.zip");
 		referenceArtifacts.setDescription("It is description.");
-		referenceArtifactsList.add(referenceArtifacts);
-		course.setReferenceArtifactsId(referenceArtifactsList);
-		assertEquals(referenceArtifactsList, course.getReferenceArtifactsId());
+		course.setReferenceArtifactsId(referenceArtifacts);
+		assertEquals(referenceArtifacts, course.getReferenceArtifactsId());
 	}
 
 	@Test
 	public void testGetRefernceUrlId() {
-		List<ReferenceUrl> referenceUrlList=new ArrayList<>();
 		ReferenceUrl referenceUrl=new ReferenceUrl();
 		referenceUrl.setId(1);
 		referenceUrl.setCourseId(1);
@@ -144,11 +137,10 @@ public class CourseTest {
 		referenceUrl.setTutorial(true);
 		referenceUrl.setType("Course Content");
 		referenceUrl.setUrl("www.app.revature.com/java");
-		referenceUrlList.add(referenceUrl);
-		course.setRefernceUrlId(referenceUrlList);
-		assertEquals(referenceUrlList, course.getRefernceUrlId());
+		course.setRefernceUrlId(referenceUrl);
+		assertEquals(referenceUrl, course.getRefernceUrlId());
 	}
-
+*/
 	@Test
 	public void testGetCreatedBy() {
 		CourseUsers users=new CourseUsers();

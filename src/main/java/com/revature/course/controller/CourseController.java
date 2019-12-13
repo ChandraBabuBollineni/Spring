@@ -38,7 +38,8 @@ public class CourseController {
 		try {
 			boolean status = courseServices.addCourse(courseDTO);
 			if (status) {
-				Message message = new Message("course successfully added");
+				Message message = new Message();
+				message.setInfoMessage("course successfully added");
 				return new ResponseEntity<>(message, HttpStatus.OK);
 			} else {
 				Message message = new Message("unable to add course");
@@ -90,7 +91,8 @@ public class CourseController {
 		try {
 			boolean status = courseServices.updateCourse(courseDTO); 
 			if (status) {
-				Message message = new Message("successfully updated course");
+				Message message = new Message();
+				message.setInfoMessage("successfully updated course");
 				return new ResponseEntity<>(message, HttpStatus.OK);
 			} else {
 				Message message = new Message("unable to update course");

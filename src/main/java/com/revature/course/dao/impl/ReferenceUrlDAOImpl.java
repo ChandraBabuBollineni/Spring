@@ -8,8 +8,8 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 import com.revature.course.configuration.DBUtils;
 import com.revature.course.dao.ReferenceUrlDAO;
-import com.revature.course.dto.ReferenceUrlDTO;
 import com.revature.course.exception.DBException;
+import com.revature.course.model.ReferenceUrl;
 
 @Repository
 public class ReferenceUrlDAOImpl implements ReferenceUrlDAO {
@@ -17,8 +17,8 @@ public class ReferenceUrlDAOImpl implements ReferenceUrlDAO {
 	PreparedStatement preparedStatement = null;
 	ResultSet resultSet;
 
-	public List<ReferenceUrlDTO> getReferenceUrlById(int id) {
-		List<ReferenceUrlDTO> referenceUrlList = new ArrayList<>();
+	public List<ReferenceUrl> getReferenceUrlById(int id) {
+		List<ReferenceUrl> referenceUrlList = new ArrayList<>();
 		try {
 			connection = DBUtils.getConnection();
 			String sql = "select * from course_reference_urls where course_id=?";
@@ -26,15 +26,15 @@ public class ReferenceUrlDAOImpl implements ReferenceUrlDAO {
 			preparedStatement.setInt(1, id);
 			resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
-				ReferenceUrlDTO referenceUrlDTO = new ReferenceUrlDTO();
-				referenceUrlDTO.setId(resultSet.getInt("id"));
-				referenceUrlDTO.setName(resultSet.getString("name"));
-				referenceUrlDTO.setType(resultSet.getString("type"));
-				referenceUrlDTO.setUrl(resultSet.getString("url"));
-				referenceUrlDTO.setCourseId(resultSet.getInt("course_id"));
-				referenceUrlDTO.setTutorial(resultSet.getBoolean("is_tutorial"));
-				referenceUrlDTO.setDescription(resultSet.getString("description"));
-				referenceUrlList.add(referenceUrlDTO);
+				ReferenceUrl referenceUrl = new ReferenceUrl();
+				referenceUrl.setId(resultSet.getInt("id"));
+				referenceUrl.setName(resultSet.getString("name"));
+				referenceUrl.setType(resultSet.getString("type"));
+				referenceUrl.setUrl(resultSet.getString("url"));
+				referenceUrl.setCourseId(resultSet.getInt("course_id"));
+				referenceUrl.setTutorial(resultSet.getBoolean("is_tutorial"));
+				referenceUrl.setDescription(resultSet.getString("description"));
+				referenceUrlList.add(referenceUrl);
 			}
 		} catch (Exception e) {
 			throw new DBException("unable to get reference artifacts", e);

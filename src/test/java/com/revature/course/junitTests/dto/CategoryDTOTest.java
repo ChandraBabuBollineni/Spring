@@ -32,8 +32,6 @@ public class CategoryDTOTest {
 	@Test
 	public void testToString() {
 		CategoryDTO categoryDTO1=new CategoryDTO();
-		System.out.println(categoryDTO.toString());
-		System.out.println(categoryDTO1.toString());
 		assertEquals(categoryDTO.toString(), categoryDTO1.toString());
 		
 		}

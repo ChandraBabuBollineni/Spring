@@ -24,4 +24,7 @@ public class Message {
 		super();
 		this.errorMessage = error;
 	}
+
+	public Message() {
+	}
 }

@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
@@ -29,6 +30,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.course.dto.CourseDTO;
 import com.revature.course.exception.ValidatorException;
+import com.revature.course.junitTests.util.CourseDTOUtil;
 import com.revature.course.services.impl.CourseServiceImpl;
 
 
@@ -51,43 +53,58 @@ class CourseControllerTest {
 	}
 	
 	@Test
-	void testAddCourseInvalid()  {
+	void testAddCourseInvalid() throws Exception  {
 		CourseDTO course=new CourseDTO();
 		course.setId(1);
 		course.setName("java");
-		try {
 		when(courseServiceMock.addCourse(any())).thenThrow(new ValidatorException("Invalid Details."));
 		String userJson = new ObjectMapper().writeValueAsString(course);
 		MvcResult mvcResult =mockMvc.perform(post("/course").contentType(MediaType.APPLICATION_JSON).content(userJson)).andReturn();
 		int status = mvcResult.getResponse().getStatus();
 	      assertEquals(HttpStatus.BAD_REQUEST.value(), status);
 	      String content = mvcResult.getResponse().getContentAsString();
-	      assertEquals(content, "");}
-		catch(Exception e) {e.printStackTrace();}
+	      assertEquals(content, "{\"infoMessage\":null,\"errorMessage\":\"Invalid Details.\"}");
 	}
 	
 	@Test
-	void testAddCoursevalid()  {
-		
+	void testAddCourseInvalid1() throws Exception  {	
 		CourseDTO course=new CourseDTO();
 		course.setId(1);
 		course.setName("java");
-		try {
-		when(courseServiceMock.addCourse(any())).thenReturn(false);
+		when(courseServiceMock.addCourse(any())).thenThrow(new ValidatorException("Invalid Details."));
 		String userJson = new ObjectMapper().writeValueAsString(course);
 		MvcResult mvcResult =mockMvc.perform(post("/course").contentType(MediaType.APPLICATION_JSON).content(userJson)).andReturn();
 		int status = mvcResult.getResponse().getStatus();
 	      assertEquals(HttpStatus.BAD_REQUEST.value(), status);
 	      String content = mvcResult.getResponse().getContentAsString();
-	      assertEquals(content, "");}
-		catch(Exception e) {e.printStackTrace();}
+	 assertEquals(content, "{\"infoMessage\":null,\"errorMessage\":\"Invalid Details.\"}");
 	}
-
 	
+	@Test
+	void testAddCourseValid() throws Exception  {	
+		CourseDTO course=CourseDTOUtil.getCourseDTODetails();
+		when(courseServiceMock.addCourse(any())).thenReturn(true);
+		String userJson = new ObjectMapper().writeValueAsString(course);
+		MvcResult mvcResult =mockMvc.perform(post("/course").contentType(MediaType.APPLICATION_JSON).content(userJson)).andReturn();
+		int status = mvcResult.getResponse().getStatus();
+	      assertEquals(HttpStatus.OK.value(), status);
+	      String content = mvcResult.getResponse().getContentAsString();
+	 assertEquals(content, "{\"infoMessage\":\"course successfully added\",\"errorMessage\":null}");
+	}
 	
-	
-	
-	
+	@Test
+	void testAddCourseInvalid2() throws Exception  {	
+		CourseDTO course=new CourseDTO();
+		course.setId(1);
+		course.setName("java");
+		when(courseServiceMock.addCourse(any())).thenReturn(false);
+		String userJson = new ObjectMapper().writeValueAsString(course);
+		MvcResult mvcResult =mockMvc.perform(post("/course").contentType(MediaType.APPLICATION_JSON).content(userJson)).andReturn();
+		int status = mvcResult.getResponse().getStatus();
+	      assertEquals(HttpStatus.OK.value(), status);
+	      String content = mvcResult.getResponse().getContentAsString();
+	 assertEquals(content, "{\"infoMessage\":null,\"errorMessage\":\"unable to add course\"}");
+	}
 
 	@Test
 	void testViewCourse() throws Exception {
@@ -104,9 +121,6 @@ class CourseControllerTest {
 	      String content = mvcResult.getResponse().getContentAsString();
 	      assertFalse(content.isEmpty());
 	}	
-	
-	
-	
 	
 	@Test
 	void testViewCourseInvalid() throws Exception {
@@ -147,8 +161,17 @@ class CourseControllerTest {
 	}
 	
 	@Test
-	void testUpdateCourse() {
-		fail("Not yet implemented");
+	void testUpdateCourse() throws Exception {
+		CourseDTO course=new CourseDTO();
+		course.setId(1);
+		course.setName("java");
+		when(courseServiceMock.updateCourse(any())).thenThrow(new ValidatorException("Invalid Details."));
+		String userJson = new ObjectMapper().writeValueAsString(course);
+		MvcResult mvcResult =mockMvc.perform(put("/course").contentType(MediaType.APPLICATION_JSON).content(userJson)).andReturn();
+		int status = mvcResult.getResponse().getStatus();
+	      assertEquals(HttpStatus.BAD_REQUEST.value(), status);
+	      String content = mvcResult.getResponse().getContentAsString();
+	 assertEquals(content, "{\"infoMessage\":null,\"errorMessage\":\"Invalid Details.\"}");
 	}
 
 	@Test

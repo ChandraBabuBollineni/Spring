@@ -2,9 +2,9 @@ package com.revature.course.dao;
 
 import java.util.List;
 import org.springframework.stereotype.Repository;
-import com.revature.course.dto.ReferenceArtifactsDTO;
+import com.revature.course.model.ReferenceArtifacts;
 
 @Repository
 public interface ReferenceArtifactsDAO {
-	public List<ReferenceArtifactsDTO> viewReferenceArtifactsById(int id);
+	public List<ReferenceArtifacts> viewReferenceArtifactsById(int id);
 }

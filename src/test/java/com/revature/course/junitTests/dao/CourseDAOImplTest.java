@@ -11,9 +11,9 @@ import java.util.List;
 import org.junit.Test;
 import com.revature.course.configuration.DBUtils;
 import com.revature.course.dao.impl.CourseDAOImpl;
-import com.revature.course.dto.CourseDTO;
 import com.revature.course.exception.DBException;
-import com.revature.course.junitTests.util.CourseDTOUtil;
+import com.revature.course.junitTests.util.CourseUtil;
+import com.revature.course.model.Course;
 
 public class CourseDAOImplTest {
 	
@@ -22,9 +22,9 @@ public class CourseDAOImplTest {
 	public void testAddCourse() {
 		Throwable exception = assertThrows(DBException.class, () -> 
 	    {
-		CourseDTO courseDTO=CourseDTOUtil.getCourseDTODetails();
-		courseDTO.setName("c#");
-		int result=courseDAO.addCourse(courseDTO);
+		Course course=CourseUtil.getCourseDetails();
+		course.setName("c#");
+		int result=courseDAO.addCourse(course);
 		System.out.println(result);
 		assertTrue(result!=0);
 	    });
@@ -33,29 +33,29 @@ public class CourseDAOImplTest {
 
 	@Test
 	public void testViewCourses() {
-		List<CourseDTO> coursesList=courseDAO.viewCourses("c.id", "desc", 2, 0);
+		List<Course> coursesList=courseDAO.viewCourses("c.id", "desc", 2, 0);
 		assertNotNull(coursesList);
 	}
 
 	@Test
 	public void testViewCourseById() {
-		CourseDTO coursesList=courseDAO.viewCourseById(11);
+		Course coursesList=courseDAO.viewCourseById(23);
 		assertNotNull(coursesList);
 	}
 
 	@Test
 	public void testViewCourseByIdInvalid() {					
 		int id=1;
-		CourseDTO coursesList=courseDAO.viewCourseById(id);
+		Course coursesList=courseDAO.viewCourseById(id);
 		assertNull(coursesList);
 	}
 
 	
 	@Test
 	public void testUpdateCourse() {
-		CourseDTO courseDTO=CourseDTOUtil.getCourseDTODetails();
-		courseDTO.setId(11);
-		int result=courseDAO.updateCourse(courseDTO);
+		Course course=CourseUtil.getCourseDetails();
+		course.setId(23);
+		int result=courseDAO.updateCourse(course);
 		assertTrue(result!=0);
 	}
 
