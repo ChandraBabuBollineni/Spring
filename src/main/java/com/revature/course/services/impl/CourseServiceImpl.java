@@ -93,7 +93,7 @@ public class CourseServiceImpl implements CourseService {
 			*/
 			
 			Type listType = new TypeToken<List<CourseDTO>>() {}.getType();
-			modelMapper.getConfiguration().setAmbiguityIgnored(true);
+			modelMapper.getConfiguration().setAmbiguityIgnored(true); 
 			courseDTO = modelMapper.map(courseList, listType);
 			for (CourseDTO courseListDto : courseDTO) {
 				List<ReferenceArtifactsDTO> referenceArtifactsDTOList = referenceArtifactsServices

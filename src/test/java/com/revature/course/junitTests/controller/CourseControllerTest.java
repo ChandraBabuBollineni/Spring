@@ -14,46 +14,43 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.course.controller.CourseController;
 import com.revature.course.dto.CourseDTO;
 import com.revature.course.exception.ValidatorException;
 import com.revature.course.junitTests.util.CourseDTOUtil;
 import com.revature.course.services.impl.CourseServiceImpl;
 
 
-@RunWith(SpringRunner.class)
-@AutoConfigureMockMvc
-@SpringBootTest
-class CourseControllerTest {
-	@Autowired
+@RunWith(MockitoJUnitRunner.Silent.class)
+public class CourseControllerTest {
 	private MockMvc mockMvc;
 
-	@MockBean
+	@Mock
 	private CourseServiceImpl courseServiceMock;
 
 	@InjectMocks
-	CourseControllerTest courseControllerTest;
+	CourseController courseControllerTest;
 
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
+		mockMvc = MockMvcBuilders.standaloneSetup(courseControllerTest).build();
 	}
 	
 	@Test
-	void testAddCourseInvalid() throws Exception  {
+	public void testAddCourseInvalid() throws Exception  {
 		CourseDTO course=new CourseDTO();
 		course.setId(1);
 		course.setName("java");
@@ -67,7 +64,7 @@ class CourseControllerTest {
 	}
 	
 	@Test
-	void testAddCourseInvalid1() throws Exception  {	
+	public void testAddCourseInvalid1() throws Exception  {	
 		CourseDTO course=new CourseDTO();
 		course.setId(1);
 		course.setName("java");
@@ -81,7 +78,7 @@ class CourseControllerTest {
 	}
 	
 	@Test
-	void testAddCourseValid() throws Exception  {	
+	public void testAddCourseValid() throws Exception  {	
 		CourseDTO course=CourseDTOUtil.getCourseDTODetails();
 		when(courseServiceMock.addCourse(any())).thenReturn(true);
 		String userJson = new ObjectMapper().writeValueAsString(course);
@@ -93,7 +90,7 @@ class CourseControllerTest {
 	}
 	
 	@Test
-	void testAddCourseInvalid2() throws Exception  {	
+	public void testAddCourseInvalid2() throws Exception  {	
 		CourseDTO course=new CourseDTO();
 		course.setId(1);
 		course.setName("java");
@@ -107,7 +104,7 @@ class CourseControllerTest {
 	}
 
 	@Test
-	void testViewCourse() throws Exception {
+	public void testViewCourse() throws Exception {
 		List<CourseDTO> courseList=new ArrayList<>();
 		CourseDTO course=new CourseDTO();
 		course.setId(1);
@@ -123,7 +120,7 @@ class CourseControllerTest {
 	}	
 	
 	@Test
-	void testViewCourseInvalid() throws Exception {
+	public void testViewCourseInvalid() throws Exception {
 		List<CourseDTO> courseList = null;
 		when(courseServiceMock.viewCourses(anyString(), anyString(),anyInt(),anyInt())).thenReturn(courseList);
 		String userJson = new ObjectMapper().writeValueAsString(courseList);
@@ -135,7 +132,7 @@ class CourseControllerTest {
 	}	
 
 	@Test
-	void testViewCourseById() throws Exception {
+	public void testViewCourseById() throws Exception {
 		CourseDTO course=new CourseDTO();
 		course.setId(1);
 		course.setName("java");
@@ -149,7 +146,7 @@ class CourseControllerTest {
 	}
 
 	@Test
-	void testViewCourseByIdInvalid() throws Exception {
+	public void testViewCourseByIdInvalid() throws Exception {
 		CourseDTO course = null;
 		when(courseServiceMock.viewCourseById(anyInt())).thenReturn(course);
 		String userJson = new ObjectMapper().writeValueAsString(course);
@@ -161,7 +158,7 @@ class CourseControllerTest {
 	}
 	
 	@Test
-	void testUpdateCourse() throws Exception {
+	public void testUpdateCourse() throws Exception {
 		CourseDTO course=new CourseDTO();
 		course.setId(1);
 		course.setName("java");
@@ -175,7 +172,7 @@ class CourseControllerTest {
 	}
 
 	@Test
-	void testDeleteCourseById() throws Exception {
+	public void testDeleteCourseById() throws Exception {
 		Boolean result=true;
 		when(courseServiceMock.deleteCourseById(anyInt())).thenReturn(true);
 		String userJson = new ObjectMapper().writeValueAsString(result);
@@ -188,7 +185,7 @@ class CourseControllerTest {
 	      }
 	
 	@Test
-	void testDeleteCourseByIdInvalid() throws Exception {
+	public void testDeleteCourseByIdInvalid() throws Exception {
 		Boolean result=true;
 		when(courseServiceMock.deleteCourseById(anyInt())).thenReturn(false);
 		String userJson = new ObjectMapper().writeValueAsString(result);
@@ -201,7 +198,7 @@ class CourseControllerTest {
 	      }
 	
 	@Test
-	void testDeleteCourseByIdInvalidId() throws Exception {
+	public void testDeleteCourseByIdInvalidId() throws Exception {
 		Boolean result=true;
 		when(courseServiceMock.deleteCourseById(anyInt())).thenReturn(false);
 		String userJson = new ObjectMapper().writeValueAsString(result);

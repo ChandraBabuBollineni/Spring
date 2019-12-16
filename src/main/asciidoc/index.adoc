@@ -1,0 +1,236 @@
+= course. 
+doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+++++
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script src="domain.js">
+</script>
+++++
+
+== Introduction to my API.
+
+this is the introduction to my api.
+
+=== add course
+
+==== add valid course
+
+.request
+include::{snippets}/CourseController/add-course/http-request.adoc[]
+
+.response
+include::{snippets}/CourseController/add-course/http-response.adoc[]
+
+.curl-request
+include::{snippets}/CourseController/add-course/curl-request.adoc[]
+
+.request-body
+include::{snippets}/CourseController/add-course/request-body.adoc[] 
+
+.response-body
+include::{snippets}/CourseController/add-course/response-body.adoc[]
+
+
+==== add course Invalid-1
+.request
+include::{snippets}/CourseController/add-course-Invalid-1/http-request.adoc[]
+
+.response
+include::{snippets}/CourseController/add-course-Invalid-1/http-response.adoc[]
+
+.curl-request
+include::{snippets}/CourseController/add-course-Invalid-1/curl-request.adoc[]
+
+.request-body
+include::{snippets}/CourseController/add-course-Invalid-1/request-body.adoc[] 
+
+.response-body
+include::{snippets}/CourseController/add-course-Invalid-1/response-body.adoc[]
+
+
+==== add course Invalid-2
+.request
+include::{snippets}/CourseController/add-course-Invalid-2/http-request.adoc[]
+
+.response
+include::{snippets}/CourseController/add-course-Invalid-2/http-response.adoc[]
+
+.curl-request
+include::{snippets}/CourseController/add-course-Invalid-2/curl-request.adoc[]
+
+.request-body
+include::{snippets}/CourseController/add-course-Invalid-2/request-body.adoc[] 
+
+.response-body
+include::{snippets}/CourseController/add-course-Invalid-2/response-body.adoc[]
+
+==== add course Invalid-3
+.request
+include::{snippets}/CourseController/add-course-Invalid-3/http-request.adoc[]
+
+.response
+include::{snippets}/CourseController/add-course-Invalid-3/http-response.adoc[]
+
+.curl-request
+include::{snippets}/CourseController/add-course-Invalid-3/curl-request.adoc[]
+
+.request-body
+include::{snippets}/CourseController/add-course-Invalid-3/request-body.adoc[] 
+
+.response-body
+include::{snippets}/CourseController/add-course-Invalid-3/response-body.adoc[]
+
+=== delete course
+==== delete course by id
+.request
+include::{snippets}/CourseController/delete-course-by-id/http-request.adoc[]
+
+.response
+include::{snippets}/CourseController/delete-course-by-id/http-response.adoc[]
+
+.curl-request
+include::{snippets}/CourseController/delete-course-by-id/curl-request.adoc[]
+
+.request-body
+include::{snippets}/CourseController/delete-course-by-id/request-body.adoc[] 
+
+.response-body
+include::{snippets}/CourseController/delete-course-by-id/response-body.adoc[]
+
+
+==== delete course by invalid id
+.request
+include::{snippets}/CourseController/delete-course-by-invalid-id/http-request.adoc[]
+
+.response
+include::{snippets}/CourseController/delete-course-by-invalid-id/http-response.adoc[]
+
+.curl-request
+include::{snippets}/CourseController/delete-course-by-invalid-id/curl-request.adoc[]
+
+.request-body
+include::{snippets}/CourseController/delete-course-by-invalid-id/request-body.adoc[] 
+
+.response-body
+include::{snippets}/CourseController/delete-course-by-invalid-id/response-body.adoc[]
+
+
+==== delete course by null id
+.request
+include::{snippets}/CourseController/delete-course-by-null-id/http-request.adoc[]
+
+.response
+include::{snippets}/CourseController/delete-course-by-null-id/http-response.adoc[]
+
+.curl-request
+include::{snippets}/CourseController/delete-course-by-null-id/curl-request.adoc[]
+
+.request-body
+include::{snippets}/CourseController/delete-course-by-null-id/request-body.adoc[] 
+
+.response-body
+include::{snippets}/CourseController/delete-course-by-null-id/response-body.adoc[]
+
+
+=== update course
+==== update course by Id
+.request
+include::{snippets}/CourseController/update-course/http-request.adoc[]
+
+.response
+include::{snippets}/CourseController/update-course/http-response.adoc[]
+
+.curl-request
+include::{snippets}/CourseController/update-course/curl-request.adoc[]
+
+.request-body
+include::{snippets}/CourseController/update-course/request-body.adoc[] 
+
+.response-body
+include::{snippets}/CourseController/update-course/response-body.adoc[]
+
+=== view course
+==== view courses
+.request
+include::{snippets}/CourseController/view-courses/http-request.adoc[]
+
+.response
+include::{snippets}/CourseController/view-courses/http-response.adoc[]
+
+.curl-request
+include::{snippets}/CourseController/view-courses/curl-request.adoc[]
+
+.request-body
+include::{snippets}/CourseController/view-courses/request-body.adoc[] 
+
+.response-body
+include::{snippets}/CourseController/view-courses/response-body.adoc[]
+
+==== view courses Invalid
+.request
+include::{snippets}/CourseController/view-courses-Invalid/http-request.adoc[]
+
+.response
+include::{snippets}/CourseController/view-courses-Invalid/http-response.adoc[]
+
+.curl-request
+include::{snippets}/CourseController/view-courses-Invalid/curl-request.adoc[]
+
+.request-body
+include::{snippets}/CourseController/view-courses-Invalid/request-body.adoc[] 
+
+.response-body
+include::{snippets}/CourseController/view-courses-Invalid/response-body.adoc[]
+
+
+
+
+=== view course by id
+==== view course by valid id
+.request
+include::{snippets}/CourseController/view-courses-by-id/http-request.adoc[]
+
+.response
+include::{snippets}/CourseController/view-courses-by-id/http-response.adoc[]
+
+.curl-request
+include::{snippets}/CourseController/view-courses-by-id/curl-request.adoc[]
+
+.request-body
+include::{snippets}/CourseController/view-courses-by-id/request-body.adoc[] 
+
+.response-body
+include::{snippets}/CourseController/view-courses-by-id/response-body.adoc[]
+
+==== view course by In-valid id
+.request
+include::{snippets}/CourseController/view-courses-by-id-invalid/http-request.adoc[]
+
+.response
+include::{snippets}/CourseController/view-courses-by-id-invalid/http-response.adoc[]
+
+.curl-request
+include::{snippets}/CourseController/view-courses-by-id-invalid/curl-request.adoc[]
+
+.request-body
+include::{snippets}/CourseController/view-courses-by-id-invalid/request-body.adoc[] 
+
+.response-body
+include::{snippets}/CourseController/view-courses-by-id-invalid/response-body.adoc[]
+
+
+
+
+
+
+
+
+
