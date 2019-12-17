@@ -1,28 +1,30 @@
-= course. 
-doctype: book
+= course
+:doctype: book
 :icons: font
 :source-highlighter: highlightjs
 :toc: left
 :toclevels: 4
 :sectlinks:
+:sectnums:
 
-++++
-<script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
-<script src="domain.js">
-</script>
-++++
+== Introduction to Course Project.
+[.lead]
+It contains course creation, course updation based on ID, course deletion based on ID and can view all courses or particular course by ID features.
 
-== Introduction to my API.
+TIP: Pro tip...
 
-this is the introduction to my api.
+IMPORTANT: Don't forget...
+
+WARNING: Watch out for...
+
+CAUTION: Ensure that...
+
+NOTE: info message...
 
 === add course
+It is useful to create new course.
 
-==== add valid course
-
+==== add course valid condition.
 .request
 include::{snippets}/CourseController/add-course/http-request.adoc[]
 
@@ -34,6 +36,9 @@ include::{snippets}/CourseController/add-course/curl-request.adoc[]
 
 .request-body
 include::{snippets}/CourseController/add-course/request-body.adoc[] 
+
+.request-fields
+include::{snippets}/CourseController/add-course/request-fields.adoc[]
 
 .response-body
 include::{snippets}/CourseController/add-course/response-body.adoc[]
@@ -54,7 +59,6 @@ include::{snippets}/CourseController/add-course-Invalid-1/request-body.adoc[]
 
 .response-body
 include::{snippets}/CourseController/add-course-Invalid-1/response-body.adoc[]
-
 
 ==== add course Invalid-2
 .request
@@ -89,6 +93,9 @@ include::{snippets}/CourseController/add-course-Invalid-3/request-body.adoc[]
 include::{snippets}/CourseController/add-course-Invalid-3/response-body.adoc[]
 
 === delete course
+
+with this API we can delete a particular course by ID.
+
 ==== delete course by id
 .request
 include::{snippets}/CourseController/delete-course-by-id/http-request.adoc[]
@@ -141,6 +148,9 @@ include::{snippets}/CourseController/delete-course-by-null-id/response-body.adoc
 
 
 === update course
+
+By using this API we can update a particular course details.
+
 ==== update course by Id
 .request
 include::{snippets}/CourseController/update-course/http-request.adoc[]
@@ -158,6 +168,9 @@ include::{snippets}/CourseController/update-course/request-body.adoc[]
 include::{snippets}/CourseController/update-course/response-body.adoc[]
 
 === view course
+
+This API is useful to view all available courses.
+
 ==== view courses
 .request
 include::{snippets}/CourseController/view-courses/http-request.adoc[]
@@ -190,10 +203,10 @@ include::{snippets}/CourseController/view-courses-Invalid/request-body.adoc[]
 .response-body
 include::{snippets}/CourseController/view-courses-Invalid/response-body.adoc[]
 
-
-
-
 === view course by id
+
+This API is useful to view particular available course by id.
+
 ==== view course by valid id
 .request
 include::{snippets}/CourseController/view-courses-by-id/http-request.adoc[]

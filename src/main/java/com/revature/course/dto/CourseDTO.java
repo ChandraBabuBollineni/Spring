@@ -27,5 +27,4 @@ public class CourseDTO {
 	private String iconName;
 	private boolean status; 
 	private int version;
-	
 }

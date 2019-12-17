@@ -39,12 +39,16 @@ public class CourseDTOUtil {
 		course.setTags("java,java programming");
 		List<ReferenceArtifactsDTO> referenceArtifactsDTOList = new ArrayList<>();
 		ReferenceArtifactsDTO referenceArtifactsDTO = new ReferenceArtifactsDTO();
+		referenceArtifactsDTO.setId(1);
+		referenceArtifactsDTO.setCourseId(1);
 		referenceArtifactsDTO.setDescription("description for interfaces");
 		referenceArtifactsDTO.setName("interfaces");
 		referenceArtifactsDTO.setType("Main content");
 		referenceArtifactsDTOList.add(referenceArtifactsDTO);
 		course.setReferenceArtifactsId(referenceArtifactsDTOList);
 		referenceArtifactsDTO = new ReferenceArtifactsDTO();
+		referenceArtifactsDTO.setId(2);
+		referenceArtifactsDTO.setCourseId(1);
 		referenceArtifactsDTO.setDescription("description for polymorphism");
 		referenceArtifactsDTO.setName("polymorphism");
 		referenceArtifactsDTO.setType("Main content");
@@ -52,6 +56,8 @@ public class CourseDTOUtil {
 		course.setReferenceArtifactsId(referenceArtifactsDTOList);
 		List<ReferenceUrlDTO> ReferenceUrlDTOList = new ArrayList<>();
 		ReferenceUrlDTO referenceUrlDTO = new ReferenceUrlDTO();
+		referenceUrlDTO.setId(1);
+		referenceUrlDTO.setCourseId(1);
 		referenceUrlDTO.setDescription("description for interfaces");
 		referenceUrlDTO.setName("interfaces");
 		referenceUrlDTO.setType("Main content");
@@ -60,6 +66,8 @@ public class CourseDTOUtil {
 		ReferenceUrlDTOList.add(referenceUrlDTO);
 		course.setRefernceUrlId(ReferenceUrlDTOList);
 		referenceUrlDTO = new ReferenceUrlDTO();
+		referenceUrlDTO.setId(2);
+		referenceUrlDTO.setCourseId(1);
 		referenceUrlDTO.setDescription("description for polymorphism");
 		referenceUrlDTO.setName("polymorphism");
 		referenceUrlDTO.setType("Main content");
