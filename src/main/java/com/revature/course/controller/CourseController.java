@@ -123,7 +123,8 @@ public class CourseController {
 		try {
 			boolean status = courseServices.deleteCourseById(id);
 			if (status) {
-				Message message = new Message("successfully deleted course");
+				Message message = new Message();
+				message.setInfoMessage("successfully deleted course");
 				message.setStatus(HttpStatus.OK.value());
 				return new ResponseEntity<>(message, HttpStatus.OK);
 			} else {

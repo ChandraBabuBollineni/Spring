@@ -180,7 +180,7 @@ public class CourseControllerTest {
 		int status = mvcResult.getResponse().getStatus();
 	      assertEquals(200, status);
 	      String content = mvcResult.getResponse().getContentAsString();
-	      String expected = "{\"infoMessage\":null,\"errorMessage\":\"successfully deleted course\",\"status\":200}";
+	      String expected = "{\"infoMessage\":\"successfully deleted course\",\"errorMessage\":null,\"status\":200}";
 	      assertEquals(expected.toString(), content);
 	      }
 	

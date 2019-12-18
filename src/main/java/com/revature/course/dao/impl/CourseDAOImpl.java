@@ -116,10 +116,9 @@ public class CourseDAOImpl implements CourseDAO {
 		List<Course> courseList = new ArrayList<Course>();
 		try {
 			connection = DBUtils.getConnection();
-			String sql = "select * from courses as c,course_users as cu where c.created_by=cu.id order by ? desc LIMIT ? OFFSET ?;";
+			String sql = "select c.id,c.name,level_id,category_id,c.tags,c.slug,c.is_level_over_ride,c.enrollment_point,c.completion_point,c.is_presignup,c.is_loggedin_via_slug,c.description,c.meta_keyword,c.meta_description,c.icon,c.icon_name,c.created_by,c.version,cu.id,cu.name,cu.email from courses as c,course_users as cu where c.created_by=cu.id order by ? LIMIT ? OFFSET ?;";
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, orderBy);
-			System.out.println("orderBy:"+orderBy);
 			preparedStatement.setInt(2, maxRows);
 			preparedStatement.setInt(3, startIndex);
 			resultSet = preparedStatement.executeQuery();
@@ -164,7 +163,7 @@ public class CourseDAOImpl implements CourseDAO {
 		Course course = null;
 		try {
 			connection = DBUtils.getConnection();
-			String sql = "select * from courses as c,course_users as cu where c.created_by=cu.id and c.id=?;";
+			String sql = "select c.id,c.name,level_id,category_id,c.tags,c.slug,c.is_level_over_ride,c.enrollment_point,c.completion_point,c.is_presignup,c.is_loggedin_via_slug,c.description,c.meta_keyword,c.meta_description,c.icon,c.icon_name,c.created_by,c.version,cu.id,cu.name,cu.email from courses as c,course_users as cu where c.created_by=cu.id and c.id=?;";
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setInt(1, id);
 			resultSet = preparedStatement.executeQuery();
@@ -340,7 +339,7 @@ public class CourseDAOImpl implements CourseDAO {
 		boolean status = false;
 		try {
 			connection = DBUtils.getConnection();
-			String sql = "select * from courses where name=?;";
+			String sql = "select name from courses where name=?;";
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, name);
 			resultSet = preparedStatement.executeQuery();
