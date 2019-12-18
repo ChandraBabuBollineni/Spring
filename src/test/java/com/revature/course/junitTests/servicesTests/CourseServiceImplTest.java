@@ -94,16 +94,22 @@ public class CourseServiceImplTest {
 
 	@Test
 	public void testDeleteCourseById() throws ServiceException {
+		Course course=CourseUtil.getCourseDetails();
+		course.setId(12);
 		Mockito.when(courseDAO.deleteCourseById(anyInt())).thenReturn(true);
-		boolean result = courseService.deleteCourseById(9);
+		Mockito.when(courseDAO.viewCourseById((anyInt()))).thenReturn(course);	
+		boolean result = courseService.deleteCourseById(12);
 		assertTrue(result);
 	}
 
 	@Test
 	public void testDeleteCourseByIdInvalid() throws ServiceException {
+		Throwable exception = assertThrows(ServiceException.class, () -> {
 		Mockito.when(courseDAO.deleteCourseById(anyInt())).thenReturn(false);
-		boolean result = courseService.deleteCourseById(9);
+		boolean result = courseService.deleteCourseById(12);
 		assertFalse(result);
+		});
+		assertEquals("course not available", exception.getMessage());
 	}
 
 	@Test
@@ -230,7 +236,7 @@ public class CourseServiceImplTest {
 	public void testAddCourseNullReferenceArtifacts() throws ServiceException, ValidatorException {
 		Throwable exception = assertThrows(ValidatorException.class, () -> {
 			CourseDTO courseDTO = CourseDTOUtil.getCourseDTODetails();
-			courseDTO.setReferenceArtifactsId(null);
+			courseDTO.setReferenceArtifacts(null);
 			Mockito.when(courseDAO.addCourse(any())).thenReturn(0);
 			courseService.addCourse(courseDTO);
 		});
@@ -241,7 +247,7 @@ public class CourseServiceImplTest {
 	public void testAddCourseNullReferenceUrl() throws ServiceException, ValidatorException {
 		Throwable exception = assertThrows(ValidatorException.class, () -> {
 			CourseDTO courseDTO = CourseDTOUtil.getCourseDTODetails();
-			courseDTO.setRefernceUrlId(null);
+			courseDTO.setRefernceUrl(null);
 			Mockito.when(courseDAO.addCourse(any())).thenReturn(0);
 			courseService.addCourse(courseDTO);
 		});
@@ -255,7 +261,7 @@ public class CourseServiceImplTest {
 			List<ReferenceUrlDTO> referenceUrlList = new ArrayList<>();
 			ReferenceUrlDTO referenceUrl = new ReferenceUrlDTO();
 			referenceUrlList.add(referenceUrl);
-			course.setRefernceUrlId(referenceUrlList);
+			course.setRefernceUrl(referenceUrlList);
 			Mockito.when(courseDAO.addCourse(any())).thenReturn(0);
 			courseService.addCourse(course);
 		});
@@ -269,7 +275,7 @@ public class CourseServiceImplTest {
 			List<ReferenceArtifactsDTO> referenceArtifactsList = new ArrayList<>();
 			ReferenceArtifactsDTO referenceArtifacts = new ReferenceArtifactsDTO();
 			referenceArtifactsList.add(referenceArtifacts);
-			courseDTO.setReferenceArtifactsId(referenceArtifactsList);
+			courseDTO.setReferenceArtifacts(referenceArtifactsList);
 			Mockito.when(courseDAO.addCourse(any())).thenReturn(0);
 			courseService.addCourse(courseDTO);
 		});
@@ -400,7 +406,7 @@ public class CourseServiceImplTest {
 	public void testUpdateCourseNullReferenceArtifacts() throws ServiceException, ValidatorException {
 		Throwable exception = assertThrows(ValidatorException.class, () -> {
 			CourseDTO courseDTO = CourseDTOUtil.getCourseDTODetails();
-			courseDTO.setReferenceArtifactsId(null);
+			courseDTO.setReferenceArtifacts(null);
 			Mockito.when(courseDAO.updateCourse(any())).thenReturn(0);
 			courseService.updateCourse(courseDTO);
 		});
@@ -411,7 +417,7 @@ public class CourseServiceImplTest {
 	public void testUpdateCourseNullReferenceUrl() throws ServiceException, ValidatorException {
 		Throwable exception = assertThrows(ValidatorException.class, () -> {
 			CourseDTO courseDTO = CourseDTOUtil.getCourseDTODetails();
-			courseDTO.setRefernceUrlId(null);
+			courseDTO.setRefernceUrl(null);
 			Mockito.when(courseDAO.updateCourse(any())).thenReturn(0);
 			courseService.updateCourse(courseDTO);
 		});
@@ -425,7 +431,7 @@ public class CourseServiceImplTest {
 			List<ReferenceUrlDTO> referenceUrlList = new ArrayList<>();
 			ReferenceUrlDTO referenceUrl = new ReferenceUrlDTO();
 			referenceUrlList.add(referenceUrl);
-			courseDTO.setRefernceUrlId(referenceUrlList);
+			courseDTO.setRefernceUrl(referenceUrlList);
 			Mockito.when(courseDAO.updateCourse(any())).thenReturn(0);
 			courseService.updateCourse(courseDTO);
 		});
@@ -439,7 +445,7 @@ public class CourseServiceImplTest {
 			List<ReferenceArtifactsDTO> referenceArtifactsList = new ArrayList<>();
 			ReferenceArtifactsDTO referenceArtifacts = new ReferenceArtifactsDTO();
 			referenceArtifactsList.add(referenceArtifacts);
-			courseDTO.setReferenceArtifactsId(referenceArtifactsList);
+			courseDTO.setReferenceArtifacts(referenceArtifactsList);
 			Mockito.when(courseDAO.updateCourse(any())).thenReturn(0);
 			courseService.updateCourse(courseDTO);
 		});

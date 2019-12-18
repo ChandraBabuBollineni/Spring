@@ -113,7 +113,7 @@ private final CourseDTO courseDTO1=new CourseDTO();
 	}
 
 	@Test
-	public void testGetReferenceArtifactsId() {
+	public void testGetreferenceArtifacts() {
 		List<ReferenceArtifactsDTO> referenceArtifactsDTOList=new ArrayList<ReferenceArtifactsDTO>();
 		ReferenceArtifactsDTO referenceArtifactsDTO=new ReferenceArtifactsDTO();
 		referenceArtifactsDTO.setId(1);
@@ -123,12 +123,12 @@ private final CourseDTO courseDTO1=new CourseDTO();
 		referenceArtifactsDTO.setFileName("java.zip");
 		referenceArtifactsDTO.setDescription("It is description.");
 		referenceArtifactsDTOList.add(referenceArtifactsDTO);
-		courseDTO.setReferenceArtifactsId(referenceArtifactsDTOList);
-		assertEquals(referenceArtifactsDTOList, courseDTO.getReferenceArtifactsId());
+		courseDTO.setReferenceArtifacts(referenceArtifactsDTOList);
+		assertEquals(referenceArtifactsDTOList, courseDTO.getReferenceArtifacts());
 	}
 
 	@Test
-	public void testGetRefernceUrlId() {
+	public void testGetrefernceUrl() {
 		List<ReferenceUrlDTO> referenceUrlDTOList=new ArrayList<>();
 		ReferenceUrlDTO referenceUrlDTO=new ReferenceUrlDTO();
 		referenceUrlDTO.setId(1);
@@ -139,8 +139,8 @@ private final CourseDTO courseDTO1=new CourseDTO();
 		referenceUrlDTO.setType("Course Content");
 		referenceUrlDTO.setUrl("www.app.revature.com/java");
 		referenceUrlDTOList.add(referenceUrlDTO);
-		courseDTO.setRefernceUrlId(referenceUrlDTOList);
-		assertEquals(referenceUrlDTOList, courseDTO.getRefernceUrlId());
+		courseDTO.setRefernceUrl(referenceUrlDTOList);
+		assertEquals(referenceUrlDTOList, courseDTO.getRefernceUrl());
 	}
 
 	@Test

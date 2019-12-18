@@ -1,13 +1,9 @@
 package com.revature.course.junitTests.dao;
 
 import static org.junit.Assert.*;
-
 import java.util.List;
-
 import org.junit.Test;
-
 import com.revature.course.dao.impl.ReferenceArtifactsDAOImpl;
-import com.revature.course.dto.ReferenceArtifactsDTO;
 import com.revature.course.model.ReferenceArtifacts;
 
 public class ReferenceArtifactsDAOImplTest {

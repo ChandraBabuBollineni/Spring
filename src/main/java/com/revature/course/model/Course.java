@@ -59,10 +59,10 @@ public class Course {
 	private File icon;
 
 	
-	private List<ReferenceArtifacts> referenceArtifactsId;
+	private List<ReferenceArtifacts> referenceArtifacts;
 
 	
-	private List<ReferenceUrl> refernceUrlId;
+	private List<ReferenceUrl> refernceUrl;
 
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "course_users")

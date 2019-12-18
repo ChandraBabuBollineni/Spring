@@ -115,7 +115,7 @@ public class CourseTest {
 	}
 
 	/*@Test
-	public void testGetReferenceArtifactsId() {
+	public void testGetreferenceArtifacts() {
 		ReferenceArtifacts referenceArtifacts=new ReferenceArtifacts();
 		referenceArtifacts.setId(1);
 		referenceArtifacts.setName("JAVA");
@@ -123,12 +123,12 @@ public class CourseTest {
 		referenceArtifacts.setCourseId(1);
 		referenceArtifacts.setFileName("java.zip");
 		referenceArtifacts.setDescription("It is description.");
-		course.setReferenceArtifactsId(referenceArtifacts);
-		assertEquals(referenceArtifacts, course.getReferenceArtifactsId());
+		course.setreferenceArtifacts(referenceArtifacts);
+		assertEquals(referenceArtifacts, course.getreferenceArtifacts());
 	}
 
 	@Test
-	public void testGetRefernceUrlId() {
+	public void testGetrefernceUrl() {
 		ReferenceUrl referenceUrl=new ReferenceUrl();
 		referenceUrl.setId(1);
 		referenceUrl.setCourseId(1);
@@ -137,8 +137,8 @@ public class CourseTest {
 		referenceUrl.setTutorial(true);
 		referenceUrl.setType("Course Content");
 		referenceUrl.setUrl("www.app.revature.com/java");
-		course.setRefernceUrlId(referenceUrl);
-		assertEquals(referenceUrl, course.getRefernceUrlId());
+		course.setrefernceUrl(referenceUrl);
+		assertEquals(referenceUrl, course.getrefernceUrl());
 	}
 */
 	@Test

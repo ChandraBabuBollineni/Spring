@@ -1,11 +1,8 @@
 package com.revature.course.services.impl;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.lang.reflect.Type;
 import java.util.List;
-
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +14,6 @@ import com.revature.course.dto.ReferenceUrlDTO;
 import com.revature.course.exception.ServiceException;
 import com.revature.course.exception.ValidatorException;
 import com.revature.course.model.Course;
-import com.revature.course.model.ReferenceArtifacts;
-import com.revature.course.model.ReferenceUrl;
 import com.revature.course.services.CourseService;
 import com.revature.course.services.ReferenceArtifactsService;
 import com.revature.course.services.ReferenceUrlService;
@@ -46,17 +41,17 @@ public class CourseServiceImpl implements CourseService {
 		CourseDTOValidator courseDTOValidator = new CourseDTOValidator();
 		courseDTOValidator.courseDtoValidator(courseDTO);
 		ReferenceArtifactsDTOValidator referenceArtifactsDTOValidator = new ReferenceArtifactsDTOValidator();
-		referenceArtifactsDTOValidator.referenceArtifactsDTOListValidator(courseDTO.getReferenceArtifactsId());
+		referenceArtifactsDTOValidator.referenceArtifactsDTOListValidator(courseDTO.getReferenceArtifacts());
 		ReferenceUrlDTOValidator referenceUrlDTOValidator = new ReferenceUrlDTOValidator();
-		referenceUrlDTOValidator.referenceUrlDTOListValidator(courseDTO.getRefernceUrlId());
+		referenceUrlDTOValidator.referenceUrlDTOListValidator(courseDTO.getRefernceUrl());
 
 		// File fs=new File("C:/Users/Revature1/Downloads/jaf-1_1_1.zip");
 		File fs = new File("C:/Users/Revature1/Downloads/rev-logo-2.png");
-		try {
+	/*	try {
 			FileInputStream fis = new FileInputStream(fs);
 		} catch (FileNotFoundException e) {
 			throw new ServiceException("file not found", e);
-		}
+		}*/
 		String fileName = fs.getName();
 		courseDTO.setIcon(fs);
 		courseDTO.setIconName(fileName);
@@ -85,10 +80,10 @@ public class CourseServiceImpl implements CourseService {
 			courseListDto.forEach(p-> {
 				List<ReferenceArtifactsDTO> referenceArtifactsDTOList = referenceArtifactsServices
 							.viewReferenceArtifactsById(p.getId());
-				p.setReferenceArtifactsId(referenceArtifactsDTOList);
+				p.setreferenceArtifacts(referenceArtifactsDTOList);
 				List<ReferenceUrlDTO> referenceUrlDTOList = referenceUrlServices
 						.viewReferenceUrlById(p.getId());
-				p.setRefernceUrlId(referenceUrlDTOList);
+				p.setrefernceUrl(referenceUrlDTOList);
 			});
 			*/
 			
@@ -98,11 +93,11 @@ public class CourseServiceImpl implements CourseService {
 			for (CourseDTO courseListDto : courseDTO) {
 				List<ReferenceArtifactsDTO> referenceArtifactsDTOList = referenceArtifactsServices
 						.viewReferenceArtifactsById(courseListDto.getId());
-				courseListDto.setReferenceArtifactsId(referenceArtifactsDTOList);
+				courseListDto.setReferenceArtifacts(referenceArtifactsDTOList);
 
 				List<ReferenceUrlDTO> referenceUrlDTOList = referenceUrlServices
 						.viewReferenceUrlById(courseListDto.getId());
-				courseListDto.setRefernceUrlId(referenceUrlDTOList);
+				courseListDto.setRefernceUrl(referenceUrlDTOList);
 			}
 		} else {
 			throw new ServiceException("No records available.");
@@ -119,9 +114,9 @@ public class CourseServiceImpl implements CourseService {
 			courseDTO = modelMapper.map(course, CourseDTO.class);
 			List<ReferenceArtifactsDTO> referenceArtifactsList = referenceArtifactsServices
 					.viewReferenceArtifactsById(course.getId());
-			courseDTO.setReferenceArtifactsId(referenceArtifactsList);
+			courseDTO.setReferenceArtifacts(referenceArtifactsList);
 			List<ReferenceUrlDTO> referenceUrlList = referenceUrlServices.viewReferenceUrlById(courseDTO.getId());
-			courseDTO.setRefernceUrlId(referenceUrlList);
+			courseDTO.setRefernceUrl(referenceUrlList);
 		} else {
 			throw new ServiceException("course not available");
 		}
@@ -133,9 +128,9 @@ public class CourseServiceImpl implements CourseService {
 		CourseDTOValidator courseDTOValidator = new CourseDTOValidator();
 		courseDTOValidator.courseDtoValidator(courseDTO);
 		ReferenceArtifactsDTOValidator referenceArtifactsDTOValidator = new ReferenceArtifactsDTOValidator();
-		referenceArtifactsDTOValidator.referenceArtifactsDTOListValidator(courseDTO.getReferenceArtifactsId());
+		referenceArtifactsDTOValidator.referenceArtifactsDTOListValidator(courseDTO.getReferenceArtifacts());
 		ReferenceUrlDTOValidator referenceUrlDTOValidator = new ReferenceUrlDTOValidator();
-		referenceUrlDTOValidator.referenceUrlDTOListValidator(courseDTO.getRefernceUrlId());
+		referenceUrlDTOValidator.referenceUrlDTOListValidator(courseDTO.getRefernceUrl());
 		if (viewCourseById(courseDTO.getId()).getId() == courseDTO.getId()) {
 			modelMapper.getConfiguration().setAmbiguityIgnored(true);
 			course = modelMapper.map(courseDTO, Course.class);
@@ -151,7 +146,11 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	public boolean deleteCourseById(int id) throws ServiceException {
+		if (viewCourseById(id).getId() == id) {
 		return courseRepository.deleteCourseById(id);
 	}
-
+		else {
+			throw new ServiceException("course not available.");
+		}
+		}
 }

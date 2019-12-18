@@ -58,9 +58,9 @@ public class CourseControllerTest {
 		String userJson = new ObjectMapper().writeValueAsString(course);
 		MvcResult mvcResult =mockMvc.perform(post("/course").contentType(MediaType.APPLICATION_JSON).content(userJson)).andReturn();
 		int status = mvcResult.getResponse().getStatus();
-	      assertEquals(HttpStatus.BAD_REQUEST.value(), status);
+	      assertEquals(HttpStatus.OK.value(), status);
 	      String content = mvcResult.getResponse().getContentAsString();
-	      assertEquals(content, "{\"infoMessage\":null,\"errorMessage\":\"Invalid Details.\"}");
+	      assertEquals(content, "{\"infoMessage\":null,\"errorMessage\":\"Invalid Details.\",\"status\":400}");
 	}
 	
 	@Test
@@ -72,9 +72,9 @@ public class CourseControllerTest {
 		String userJson = new ObjectMapper().writeValueAsString(course);
 		MvcResult mvcResult =mockMvc.perform(post("/course").contentType(MediaType.APPLICATION_JSON).content(userJson)).andReturn();
 		int status = mvcResult.getResponse().getStatus();
-	      assertEquals(HttpStatus.BAD_REQUEST.value(), status);
+	      assertEquals(HttpStatus.OK.value(), status);
 	      String content = mvcResult.getResponse().getContentAsString();
-	 assertEquals(content, "{\"infoMessage\":null,\"errorMessage\":\"Invalid Details.\"}");
+	 assertEquals(content, "{\"infoMessage\":null,\"errorMessage\":\"Invalid Details.\",\"status\":400}");
 	}
 	
 	@Test
@@ -86,7 +86,7 @@ public class CourseControllerTest {
 		int status = mvcResult.getResponse().getStatus();
 	      assertEquals(HttpStatus.OK.value(), status);
 	      String content = mvcResult.getResponse().getContentAsString();
-	 assertEquals(content, "{\"infoMessage\":\"course successfully added\",\"errorMessage\":null}");
+	 assertEquals( "{\"infoMessage\":\"course successfully added\",\"errorMessage\":null,\"status\":200}",content);
 	}
 	
 	@Test
@@ -100,7 +100,7 @@ public class CourseControllerTest {
 		int status = mvcResult.getResponse().getStatus();
 	      assertEquals(HttpStatus.OK.value(), status);
 	      String content = mvcResult.getResponse().getContentAsString();
-	 assertEquals(content, "{\"infoMessage\":null,\"errorMessage\":\"unable to add course\"}");
+	 assertEquals(content, "{\"infoMessage\":null,\"errorMessage\":\"unable to add course\",\"status\":400}");
 	}
 
 	@Test
@@ -166,9 +166,9 @@ public class CourseControllerTest {
 		String userJson = new ObjectMapper().writeValueAsString(course);
 		MvcResult mvcResult =mockMvc.perform(put("/course").contentType(MediaType.APPLICATION_JSON).content(userJson)).andReturn();
 		int status = mvcResult.getResponse().getStatus();
-	      assertEquals(HttpStatus.BAD_REQUEST.value(), status);
+	      assertEquals(HttpStatus.OK.value(), status);
 	      String content = mvcResult.getResponse().getContentAsString();
-	 assertEquals(content, "{\"infoMessage\":null,\"errorMessage\":\"Invalid Details.\"}");
+	 assertEquals(content, "{\"infoMessage\":null,\"errorMessage\":\"Invalid Details.\",\"status\":400}");
 	}
 
 	@Test
@@ -180,7 +180,7 @@ public class CourseControllerTest {
 		int status = mvcResult.getResponse().getStatus();
 	      assertEquals(200, status);
 	      String content = mvcResult.getResponse().getContentAsString();
-	      String expected = "{\"infoMessage\":null,\"errorMessage\":\"successfully deleted course\"}";
+	      String expected = "{\"infoMessage\":null,\"errorMessage\":\"successfully deleted course\",\"status\":200}";
 	      assertEquals(expected.toString(), content);
 	      }
 	
@@ -193,7 +193,7 @@ public class CourseControllerTest {
 		int status = mvcResult.getResponse().getStatus();
 	      assertEquals(200, status);
 	      String content = mvcResult.getResponse().getContentAsString();
-	      String expected = "{\"infoMessage\":null,\"errorMessage\":\"unable to delete course\"}";
+	      String expected = "{\"infoMessage\":null,\"errorMessage\":\"unable to delete course\",\"status\":400}";
 	      assertEquals(expected.toString(), content);
 	      }
 	

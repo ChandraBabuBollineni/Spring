@@ -3,7 +3,6 @@ package com.revature.course.dao;
 import java.sql.Connection;
 import java.util.List;
 import org.springframework.stereotype.Repository;
-import com.revature.course.dto.CourseDTO;
 import com.revature.course.model.Course;
 
 @Repository

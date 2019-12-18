@@ -70,7 +70,7 @@ public class CourseDAOImpl implements CourseDAO {
 			fs = new File("C:/Users/Revature1/Downloads/jaf-1_1_1.zip");
 			fis = new FileInputStream(fs);
 			fileName = fs.getName();
-			List<ReferenceArtifacts> referenceArtifactsList = course.getReferenceArtifactsId();
+			List<ReferenceArtifacts> referenceArtifactsList = course.getReferenceArtifacts();
 			sql = "insert into course_reference_artifacts(type,course_id,name,file,file_name,description) values(?,?,?,?,?,?)";
 			preparedStatement = connection.prepareStatement(sql);
 			for (ReferenceArtifacts list : referenceArtifactsList) {
@@ -83,7 +83,7 @@ public class CourseDAOImpl implements CourseDAO {
 				preparedStatement.addBatch();
 			}
 			preparedStatement.executeBatch();
-			List<ReferenceUrl> referenceUrlList = course.getRefernceUrlId();
+			List<ReferenceUrl> referenceUrlList = course.getRefernceUrl();
 			sql = "insert into course_reference_urls(type,course_id,name,url,is_tutorial,description) values(?,?,?,?,?,?)";
 			preparedStatement = connection.prepareStatement(sql);
 			for (ReferenceUrl list : referenceUrlList) {
@@ -119,6 +119,7 @@ public class CourseDAOImpl implements CourseDAO {
 			String sql = "select * from courses as c,course_users as cu where c.created_by=cu.id order by ? desc LIMIT ? OFFSET ?;";
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, orderBy);
+			System.out.println("orderBy:"+orderBy);
 			preparedStatement.setInt(2, maxRows);
 			preparedStatement.setInt(3, startIndex);
 			resultSet = preparedStatement.executeQuery();
@@ -237,7 +238,7 @@ public class CourseDAOImpl implements CourseDAO {
 			fs = new File("C:/Users/Revature1/Downloads/jaf-1_1_1.zip");
 			fis = new FileInputStream(fs);
 			fileName = fs.getName();
-			List<ReferenceArtifacts> referenceArtifactsList = course.getReferenceArtifactsId();
+			List<ReferenceArtifacts> referenceArtifactsList = course.getReferenceArtifacts();
 			for (ReferenceArtifacts list : referenceArtifactsList) {
 
 				sql = "update course_reference_artifacts set name=?,file=?,file_name=?,description=? where id=?";
@@ -252,7 +253,7 @@ public class CourseDAOImpl implements CourseDAO {
 			}
 			preparedStatement.executeBatch();
 
-			List<ReferenceUrl> referenceUrlList = course.getRefernceUrlId();
+			List<ReferenceUrl> referenceUrlList = course.getRefernceUrl();
 			for (ReferenceUrl list : referenceUrlList) {
 				sql = "update course_reference_urls set name=?,url=?,is_tutorial=?,description=? where id=?";
 				preparedStatement = connection.prepareStatement(sql);

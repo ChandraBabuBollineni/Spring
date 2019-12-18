@@ -6,6 +6,7 @@
 :toclevels: 4
 :sectlinks:
 :sectnums:
+:nofooter:
 
 == Introduction to Course Project.
 [.lead]
@@ -151,21 +152,40 @@ include::{snippets}/CourseController/delete-course-by-null-id/response-body.adoc
 
 By using this API we can update a particular course details.
 
-==== update course by Id
+==== update course by Invalid Id
 .request
-include::{snippets}/CourseController/update-course/http-request.adoc[]
+include::{snippets}/CourseController/update-course-Invalid/http-request.adoc[]
 
 .response
-include::{snippets}/CourseController/update-course/http-response.adoc[]
+include::{snippets}/CourseController/update-course-Invalid/http-response.adoc[]
 
 .curl-request
-include::{snippets}/CourseController/update-course/curl-request.adoc[]
+include::{snippets}/CourseController/update-course-Invalid/curl-request.adoc[]
 
 .request-body
-include::{snippets}/CourseController/update-course/request-body.adoc[] 
+include::{snippets}/CourseController/update-course-Invalid/request-body.adoc[] 
 
 .response-body
-include::{snippets}/CourseController/update-course/response-body.adoc[]
+include::{snippets}/CourseController/update-course-Invalid/response-body.adoc[]
+
+==== update course by valid Id
+.request
+include::{snippets}/CourseController/update-course-valid/http-request.adoc[]
+
+.response
+include::{snippets}/CourseController/update-course-valid/http-response.adoc[]
+
+.curl-request
+include::{snippets}/CourseController/update-course-valid/curl-request.adoc[]
+
+.request-body
+include::{snippets}/CourseController/update-course-valid/request-body.adoc[] 
+
+.response-body
+include::{snippets}/CourseController/update-course-valid/response-body.adoc[]
+
+.request-fields
+include::{snippets}/CourseController/update-course-valid/request-fields.adoc[]
 
 === view course
 

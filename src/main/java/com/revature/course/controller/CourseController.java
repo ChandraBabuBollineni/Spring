@@ -40,15 +40,18 @@ public class CourseController {
 			if (status) {
 				Message message = new Message();
 				message.setInfoMessage("course successfully added");
+				message.setStatus(HttpStatus.OK.value());
 				return new ResponseEntity<>(message, HttpStatus.OK);
 			} else {
 				Message message = new Message("unable to add course");
+				message.setStatus(HttpStatus.BAD_REQUEST.value());
 				return new ResponseEntity<>(message, HttpStatus.OK);
 			}
 		} catch (Exception e) {
 			Message message = new Message(e.getMessage());
+			message.setStatus(HttpStatus.BAD_REQUEST.value());
 			LOGGER.error(e.getMessage(), e);
-			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(message, HttpStatus.OK);
 		}
 	}
 
@@ -59,11 +62,14 @@ public class CourseController {
 	public ResponseEntity<Object> viewCourse(@RequestParam("orderBy") String orderBy,@RequestParam("sortBy") String sortBy,@RequestParam("maxRows") int maxRows,@RequestParam("startIndex") int startIndex) {
 		try {
 			List<CourseDTO> coursesList = courseServices.viewCourses(orderBy,sortBy,maxRows,startIndex);
+			Message message = new Message();
+			message.setStatus(HttpStatus.OK.value());
 			return new ResponseEntity<>(coursesList, HttpStatus.OK);
 		} catch (Exception e) {
 			Message message = new Message(e.getMessage());
 			LOGGER.error(e.getMessage(), e);
-			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+			message.setStatus(HttpStatus.BAD_REQUEST.value());
+			return new ResponseEntity<>(message, HttpStatus.OK);
 		}
 	}
 
@@ -78,8 +84,9 @@ public class CourseController {
 			return new ResponseEntity<>(course, HttpStatus.OK);
 		} catch (Exception e) {
 			Message message = new Message(e.getMessage());
+			message.setStatus(HttpStatus.BAD_REQUEST.value());
 			LOGGER.error(e.getMessage(), e);
-			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(message, HttpStatus.OK);
 		}
 	}
 
@@ -93,15 +100,18 @@ public class CourseController {
 			if (status) {
 				Message message = new Message();
 				message.setInfoMessage("successfully updated course");
+				message.setStatus(HttpStatus.OK.value());
 				return new ResponseEntity<>(message, HttpStatus.OK);
 			} else {
 				Message message = new Message("unable to update course");
+				message.setStatus(HttpStatus.BAD_REQUEST.value());
 				return new ResponseEntity<>(message, HttpStatus.OK);
 			}
 		} catch (Exception e) {
 			Message message = new Message(e.getMessage());
 			LOGGER.error(e.getMessage(), e);
-			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+			message.setStatus(HttpStatus.BAD_REQUEST.value());
+			return new ResponseEntity<>(message, HttpStatus.OK);
 		}
 	}
 
@@ -114,15 +124,18 @@ public class CourseController {
 			boolean status = courseServices.deleteCourseById(id);
 			if (status) {
 				Message message = new Message("successfully deleted course");
+				message.setStatus(HttpStatus.OK.value());
 				return new ResponseEntity<>(message, HttpStatus.OK);
 			} else {
 				Message message = new Message("unable to delete course");
+				message.setStatus(HttpStatus.BAD_REQUEST.value());
 				return new ResponseEntity<>(message, HttpStatus.OK);
 			}
 		} catch (Exception e) {
 			Message message = new Message(e.getMessage());
 			LOGGER.error(e.getMessage(), e);
-			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+			message.setStatus(HttpStatus.BAD_REQUEST.value());
+			return new ResponseEntity<>(message, HttpStatus.OK);
 		}
 	}
 }

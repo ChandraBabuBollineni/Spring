@@ -1,24 +1,12 @@
 package com.revature.course.configuration;
 
+import lombok.Data;
+
+@Data
 public class Message {
 	private String infoMessage;
 	private String errorMessage;
-
-	public String getInfoMessage() {
-		return infoMessage;
-	}
-
-	public void setInfoMessage(String infoMessage) {
-		this.infoMessage = infoMessage;
-	}
-
-	public void setErrorMessage(String error) {
-		this.errorMessage = error;
-	}
-
-	public String getErrorMessage() {
-		return errorMessage;
-	}
+	private int status=200;
 
 	public Message(String error) {
 		super();

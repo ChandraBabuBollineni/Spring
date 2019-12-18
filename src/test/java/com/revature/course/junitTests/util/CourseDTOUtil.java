@@ -1,5 +1,6 @@
 package com.revature.course.junitTests.util;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,16 +45,18 @@ public class CourseDTOUtil {
 		referenceArtifactsDTO.setDescription("description for interfaces");
 		referenceArtifactsDTO.setName("interfaces");
 		referenceArtifactsDTO.setType("Main content");
+		referenceArtifactsDTO.setFileName("interfaces.zip");
 		referenceArtifactsDTOList.add(referenceArtifactsDTO);
-		course.setReferenceArtifactsId(referenceArtifactsDTOList);
+		course.setReferenceArtifacts(referenceArtifactsDTOList);
 		referenceArtifactsDTO = new ReferenceArtifactsDTO();
 		referenceArtifactsDTO.setId(2);
 		referenceArtifactsDTO.setCourseId(1);
 		referenceArtifactsDTO.setDescription("description for polymorphism");
 		referenceArtifactsDTO.setName("polymorphism");
+		referenceArtifactsDTO.setFileName("polymorphism.zip");
 		referenceArtifactsDTO.setType("Main content");
 		referenceArtifactsDTOList.add(referenceArtifactsDTO);
-		course.setReferenceArtifactsId(referenceArtifactsDTOList);
+		course.setReferenceArtifacts(referenceArtifactsDTOList);
 		List<ReferenceUrlDTO> ReferenceUrlDTOList = new ArrayList<>();
 		ReferenceUrlDTO referenceUrlDTO = new ReferenceUrlDTO();
 		referenceUrlDTO.setId(1);
@@ -64,7 +67,7 @@ public class CourseDTOUtil {
 		referenceUrlDTO.setTutorial(false);
 		referenceUrlDTO.setUrl("www.revature.com/interfaces");
 		ReferenceUrlDTOList.add(referenceUrlDTO);
-		course.setRefernceUrlId(ReferenceUrlDTOList);
+		course.setRefernceUrl(ReferenceUrlDTOList);
 		referenceUrlDTO = new ReferenceUrlDTO();
 		referenceUrlDTO.setId(2);
 		referenceUrlDTO.setCourseId(1);
@@ -74,8 +77,10 @@ public class CourseDTOUtil {
 		referenceUrlDTO.setTutorial(true);
 		referenceUrlDTO.setUrl("www.revature.com/polymorphism");
 		ReferenceUrlDTOList.add(referenceUrlDTO);
-		course.setRefernceUrlId(ReferenceUrlDTOList);
-		course.setIconName("C:/Users/Revature1/Downloads/rev-logo-2.png");
+		course.setRefernceUrl(ReferenceUrlDTOList);
+		course.setIconName("rev-logo-2.png");
+		File file=new File("C:/Users/Revature1/Downloads/rev-logo-2.png");
+		course.setIcon(file);
 		return course;
 	}
 }

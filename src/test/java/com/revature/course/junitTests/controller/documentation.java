@@ -30,7 +30,7 @@ import com.revature.course.services.impl.CourseServiceImpl;
 public class documentation {
 	@Rule
 	  public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("target/generated-snippets");
-	 private ObjectMapper objectMapper = new ObjectMapper();
+	
 	private MockMvc mockMvc;
 
 	@Mock
