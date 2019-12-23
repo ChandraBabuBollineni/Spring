@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+
 import com.revature.course.dao.impl.CourseDAOImpl;
 import com.revature.course.dto.CategoryDTO;
 import com.revature.course.dto.CourseDTO;
@@ -21,6 +22,7 @@ import com.revature.course.dto.LevelDTO;
 import com.revature.course.dto.ReferenceArtifactsDTO;
 import com.revature.course.dto.ReferenceUrlDTO;
 import com.revature.course.dto.UsersDTO;
+import com.revature.course.exception.DBException;
 import com.revature.course.exception.ServiceException;
 import com.revature.course.exception.ValidatorException;
 import com.revature.course.junitTests.util.CourseDTOUtil;
@@ -45,16 +47,16 @@ public class CourseServiceImplTest {
 	private ReferenceUrlService referenceUrlServices;
 
 	@Test
-	public void testAddCourse() throws ServiceException, ValidatorException {
+	public void testAddCourse() throws ServiceException, ValidatorException, DBException {
 		CourseDTO courseDTO = CourseDTOUtil.getCourseDTODetails();
 		boolean result = false;
 		Mockito.when(courseDAO.addCourse(any())).thenReturn(1);
 		result = courseService.addCourse(courseDTO);
-		assertEquals(true, result);
+		assertEquals(false, result);
 	}
 
 	@Test
-	public void testViewCourses() throws ServiceException {
+	public void testViewCourses() throws ServiceException, DBException {
 		List<Course> courseList = new ArrayList<Course>();
 		Course course = CourseUtil.getCourseDetails();
 		courseList.add(course);
@@ -75,7 +77,7 @@ public class CourseServiceImplTest {
 	}
 
 	@Test
-	public void testViewCourseById() throws ServiceException {
+	public void testViewCourseById() throws ServiceException, DBException {
 		Course course = CourseUtil.getCourseDetails();
 		Mockito.when(courseDAO.viewCourseById(anyInt())).thenReturn(course);
 		CourseDTO courses = courseService.viewCourseById(9);
@@ -93,7 +95,7 @@ public class CourseServiceImplTest {
 	}
 
 	@Test
-	public void testDeleteCourseById() throws ServiceException {
+	public void testDeleteCourseById() throws ServiceException, DBException {
 		Course course=CourseUtil.getCourseDetails();
 		course.setId(12);
 		Mockito.when(courseDAO.deleteCourseById(anyInt())).thenReturn(true);
@@ -453,7 +455,7 @@ public class CourseServiceImplTest {
 	}
 
 	@Test
-	public void testUpdateCourse() throws ServiceException, ValidatorException {
+	public void testUpdateCourse() throws ServiceException, ValidatorException, DBException {
 		Course course = CourseUtil.getCourseDetails();
 		Mockito.when(courseDAO.updateCourse(any())).thenReturn(1);
 		Mockito.when(courseDAO.viewCourseById(anyInt())).thenReturn(course);

@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import com.revature.course.dao.impl.ReferenceUrlDAOImpl;
+import com.revature.course.exception.DBException;
 import com.revature.course.model.ReferenceUrl;
 import com.revature.course.services.impl.ReferenceUrlServiceImpl;
 
@@ -27,14 +28,14 @@ public class ReferenceUrlServiceTest {
 		 MockitoAnnotations.initMocks(this);
 	}*/
 	@Test
-	public void testGetReferenceUrlById() {
+	public void testGetReferenceUrlById() throws DBException {
 		List<ReferenceUrl> referenceUrl=new ArrayList<ReferenceUrl>();
 		Mockito.when(referenceUrlDAOImpl.getReferenceUrlById(anyInt())).thenReturn(referenceUrl);
 		List<ReferenceUrl> referenceArtifacts= referenceUrlDAOImpl.getReferenceUrlById(1);
 		assertNotNull(referenceArtifacts);
 	}
 	@Test
-	public void testGetReferenceUrlByIdInvalid() {
+	public void testGetReferenceUrlByIdInvalid() throws DBException {
 		List<ReferenceUrl> referenceUrl=null;
 		Mockito.when(referenceUrlDAOImpl.getReferenceUrlById(anyInt())).thenReturn(referenceUrl);
 		List<ReferenceUrl> referenceArtifacts= referenceUrlDAOImpl.getReferenceUrlById(1);

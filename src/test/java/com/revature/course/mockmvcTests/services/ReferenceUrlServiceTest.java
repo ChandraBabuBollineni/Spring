@@ -18,6 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import com.revature.course.dao.impl.ReferenceUrlDAOImpl;
 import com.revature.course.dto.ReferenceUrlDTO;
+import com.revature.course.exception.DBException;
+import com.revature.course.model.ReferenceUrl;
 import com.revature.course.services.impl.ReferenceUrlServiceImpl;
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -33,17 +35,17 @@ class ReferenceUrlServiceTest {
 		 MockitoAnnotations.initMocks(this);
 	}
 	@Test
-	void testGetReferenceUrlById() {
-		List<ReferenceUrlDTO> referenceUrlDTO=new ArrayList<ReferenceUrlDTO>();
+	void testGetReferenceUrlById() throws DBException {
+		List<ReferenceUrl> referenceUrlDTO=new ArrayList<ReferenceUrl>();
 		Mockito.when(referenceUrlDAOImpl.getReferenceUrlById(anyInt())).thenReturn(referenceUrlDTO);
-		List<ReferenceUrlDTO> referenceArtifacts= referenceUrlDAOImpl.getReferenceUrlById(1);
+		List<ReferenceUrl> referenceArtifacts= referenceUrlDAOImpl.getReferenceUrlById(1);
 		assertNotNull(referenceArtifacts);
 	}
 	@Test
-	void testGetReferenceUrlByIdInvalid() {
-		List<ReferenceUrlDTO> referenceUrlDTO=null;
+	void testGetReferenceUrlByIdInvalid() throws DBException {
+		List<ReferenceUrl> referenceUrlDTO=null;
 		Mockito.when(referenceUrlDAOImpl.getReferenceUrlById(anyInt())).thenReturn(referenceUrlDTO);
-		List<ReferenceUrlDTO> referenceArtifacts= referenceUrlDAOImpl.getReferenceUrlById(1);
+		List<ReferenceUrl> referenceArtifacts= referenceUrlDAOImpl.getReferenceUrlById(1);
 		assertNull(referenceArtifacts);
 	}
 }

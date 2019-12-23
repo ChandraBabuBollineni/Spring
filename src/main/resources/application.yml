@@ -1,0 +1,9 @@
+server:
+  port: 9000
+spring:
+  main:
+    allow-bean-definition-overriding: true    banner-mode: off
+  profiles:
+    active: dev    
+    
+  

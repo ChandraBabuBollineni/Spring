@@ -10,13 +10,12 @@ import java.sql.Connection;
 import java.util.List;
 import org.junit.Test;
 import com.revature.course.configuration.DBUtils;
-import com.revature.course.dao.impl.CourseDAOImpl;
 import com.revature.course.exception.DBException;
 import com.revature.course.junitTests.util.CourseUtil;
 import com.revature.course.model.Course;
 
 public class CourseDAOImplTest {
-	
+/*	
 	private CourseDAOImpl courseDAO=new CourseDAOImpl();	
 	@Test
 	public void testAddCourse() {
@@ -101,5 +100,5 @@ public class CourseDAOImplTest {
 		boolean status=courseDAO.checkName(name);
 		assertFalse(status);
 	}
-
+*/
 }

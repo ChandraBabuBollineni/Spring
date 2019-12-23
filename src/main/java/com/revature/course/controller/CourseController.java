@@ -17,19 +17,36 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.revature.course.configuration.Message;
 import com.revature.course.dto.CourseDTO;
+import com.revature.course.exception.DBException;
+import com.revature.course.exception.ServiceException;
+import com.revature.course.exception.ValidatorException;
 import com.revature.course.services.CourseService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-
+/***
+ * 
+ * course API, useful to add course,view course by id,view all available courses,update a particular course using id and delete a particular course by id.
+ *
+ */
 @RestController
 @RequestMapping("/course")
 public class CourseController {
-	@Autowired
-	CourseService courseServices;
+	
+	private CourseService courseServices;
+	
+	 @Autowired
+	   public CourseController(CourseService courseServices) {
+	      this.courseServices = courseServices;
+	   }
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CourseController.class);
-
+/***
+ * 
+ * URL is  /course of post type
+ * @param courseDTO
+ * @return Message
+ */
 	@PostMapping
 	@ApiOperation("add course")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "successfully added course", response = Message.class),
@@ -40,21 +57,38 @@ public class CourseController {
 			if (status) {
 				Message message = new Message();
 				message.setInfoMessage("course successfully added");
-				message.setStatus(HttpStatus.OK.value());
+				message.setStatus("success");
 				return new ResponseEntity<>(message, HttpStatus.OK);
 			} else {
 				Message message = new Message("unable to add course");
-				message.setStatus(HttpStatus.BAD_REQUEST.value());
+				message.setStatus("failed");
 				return new ResponseEntity<>(message, HttpStatus.OK);
 			}
-		} catch (Exception e) {
+		} catch ( ServiceException e) {
 			Message message = new Message(e.getMessage());
-			message.setStatus(HttpStatus.BAD_REQUEST.value());
 			LOGGER.error(e.getMessage(), e);
-			return new ResponseEntity<>(message, HttpStatus.OK);
+			message.setStatus("failed");
+			return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (DBException e) {
+			Message message = new Message(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
+			message.setStatus("failed");
+			return new ResponseEntity<>(message, HttpStatus.BAD_GATEWAY);
+		} catch (ValidatorException e) {
+			Message message = new Message(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
+			message.setStatus("failed");
+			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
 		}
 	}
-
+/***
+ * 
+ * @param orderBy - order by a particular column like id,name etc
+ * @param sortBy - either Ascending or Descending
+ * @param maxRows - maximum number of rows to fetch
+ * @param startIndex - starting index of id
+ * @return courseList
+ */
 	@GetMapping
 	@ApiOperation("view courses")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "viewing available courses", response = Message.class),
@@ -63,16 +97,25 @@ public class CourseController {
 		try {
 			List<CourseDTO> coursesList = courseServices.viewCourses(orderBy,sortBy,maxRows,startIndex);
 			Message message = new Message();
-			message.setStatus(HttpStatus.OK.value());
+			message.setStatus("success");
 			return new ResponseEntity<>(coursesList, HttpStatus.OK);
-		} catch (Exception e) {
+		} catch ( ServiceException e) {
 			Message message = new Message(e.getMessage());
 			LOGGER.error(e.getMessage(), e);
-			message.setStatus(HttpStatus.BAD_REQUEST.value());
-			return new ResponseEntity<>(message, HttpStatus.OK);
+			message.setStatus("failed");
+			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+		} catch (DBException e) {
+			Message message = new Message(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
+			message.setStatus("failed");
+			return new ResponseEntity<>(message, HttpStatus.BAD_GATEWAY);
 		}
 	}
-
+/***
+ * 
+ * @param id - based on id it will return a particular course details
+ * @return - a particular course
+ */
 	@GetMapping("/{id}")
 	@ApiOperation("view course by id")
 	@ApiResponses(value = {
@@ -82,14 +125,23 @@ public class CourseController {
 		try {
 			CourseDTO course = courseServices.viewCourseById(id);
 			return new ResponseEntity<>(course, HttpStatus.OK);
-		} catch (Exception e) {
+		} catch ( ServiceException e) {
 			Message message = new Message(e.getMessage());
-			message.setStatus(HttpStatus.BAD_REQUEST.value());
 			LOGGER.error(e.getMessage(), e);
-			return new ResponseEntity<>(message, HttpStatus.OK);
+			message.setStatus("failed");
+			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+		} catch (DBException e) {
+			Message message = new Message(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
+			message.setStatus("failed");
+			return new ResponseEntity<>(message, HttpStatus.BAD_GATEWAY);
 		}
 	}
-
+/***
+ * 
+ * @param courseDTO
+ * @return Message
+ */
 	@PutMapping
 	@ApiOperation("update course")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "successfully updated course", response = Message.class),
@@ -100,21 +152,35 @@ public class CourseController {
 			if (status) {
 				Message message = new Message();
 				message.setInfoMessage("successfully updated course");
-				message.setStatus(HttpStatus.OK.value());
+				message.setStatus("success");
 				return new ResponseEntity<>(message, HttpStatus.OK);
 			} else {
 				Message message = new Message("unable to update course");
-				message.setStatus(HttpStatus.BAD_REQUEST.value());
+				message.setStatus("failed");
 				return new ResponseEntity<>(message, HttpStatus.OK);
 			}
-		} catch (Exception e) {
+		} catch ( ServiceException e) {
 			Message message = new Message(e.getMessage());
 			LOGGER.error(e.getMessage(), e);
-			message.setStatus(HttpStatus.BAD_REQUEST.value());
-			return new ResponseEntity<>(message, HttpStatus.OK);
+			message.setStatus("failed");
+			return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (DBException e) {
+			Message message = new Message(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
+			message.setStatus("failed");
+			return new ResponseEntity<>(message, HttpStatus.BAD_GATEWAY);
+		} catch (ValidatorException e) {
+			Message message = new Message(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
+			message.setStatus("failed");
+			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
 		}
 	}
-
+/***
+ * 
+ * @param id
+ * @return Message
+ */
 	@DeleteMapping("/{id}")
 	@ApiOperation("delete course")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "successfully deleted course", response = Message.class),
@@ -125,18 +191,23 @@ public class CourseController {
 			if (status) {
 				Message message = new Message();
 				message.setInfoMessage("successfully deleted course");
-				message.setStatus(HttpStatus.OK.value());
+				message.setStatus("success");
 				return new ResponseEntity<>(message, HttpStatus.OK);
 			} else {
 				Message message = new Message("unable to delete course");
-				message.setStatus(HttpStatus.BAD_REQUEST.value());
+				message.setStatus("failed");
 				return new ResponseEntity<>(message, HttpStatus.OK);
 			}
-		} catch (Exception e) {
+		} catch ( ServiceException e) {
 			Message message = new Message(e.getMessage());
 			LOGGER.error(e.getMessage(), e);
-			message.setStatus(HttpStatus.BAD_REQUEST.value());
-			return new ResponseEntity<>(message, HttpStatus.OK);
+			message.setStatus("failed");
+			return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (DBException e) {
+			Message message = new Message(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
+			message.setStatus("failed");
+			return new ResponseEntity<>(message, HttpStatus.BAD_GATEWAY);
 		}
 	}
 }
