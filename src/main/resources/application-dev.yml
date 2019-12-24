@@ -5,3 +5,17 @@ spring:
       url: jdbc:mysql://localhost:3306/chandra_db
       username: root
       password: root
+   
+logging:
+  level:
+    com.revature.course:
+                       ERROR
+  file: 
+     name: logs/app.log
+    
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+    file: "%d %p %c{1.} [%t] %m%n"
+     
+     
+     

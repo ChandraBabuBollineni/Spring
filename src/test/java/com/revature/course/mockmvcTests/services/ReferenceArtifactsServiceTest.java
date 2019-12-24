@@ -17,6 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import com.revature.course.dao.impl.ReferenceArtifactsDAOImpl;
 import com.revature.course.dto.ReferenceArtifactsDTO;
+import com.revature.course.exception.DBException;
+import com.revature.course.model.ReferenceArtifacts;
 import com.revature.course.services.impl.ReferenceArtifactsServiceImpl;
 
 @RunWith(SpringRunner.class)
@@ -34,18 +36,18 @@ class ReferenceArtifactsServiceTest {
 	}
 	
 	@Test
-	void testViewReferenceArtifactsById() {
-		List<ReferenceArtifactsDTO> referenceArtifactsDTO =new ArrayList<>();	
+	void testViewReferenceArtifactsById() throws DBException {
+		List<ReferenceArtifacts> referenceArtifactsDTO =new ArrayList<>();	
 		Mockito.when(referenceArtifactsDAO.viewReferenceArtifactsById(anyInt())).thenReturn(referenceArtifactsDTO);
-		List<ReferenceArtifactsDTO> referenceArtifacts= referenceArtifactsDAO.viewReferenceArtifactsById(1);
+		List<ReferenceArtifacts> referenceArtifacts= referenceArtifactsDAO.viewReferenceArtifactsById(1);
 		assertNotNull(referenceArtifacts);
 	}
 	
 	@Test
-	void testViewReferenceArtifactsByIdInvalid() {
-		List<ReferenceArtifactsDTO> referenceArtifactsDTO=null;	
+	void testViewReferenceArtifactsByIdInvalid() throws DBException {
+		List<ReferenceArtifacts> referenceArtifactsDTO=null;	
 		Mockito.when(referenceArtifactsDAO.viewReferenceArtifactsById(anyInt())).thenReturn(referenceArtifactsDTO);
-		List<ReferenceArtifactsDTO> referenceArtifacts= referenceArtifactsDAO.viewReferenceArtifactsById(1);
+		List<ReferenceArtifacts> referenceArtifacts= referenceArtifactsDAO.viewReferenceArtifactsById(1);
 		assertNull(referenceArtifacts);
 	}
 

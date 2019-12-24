@@ -17,6 +17,7 @@ import com.revature.course.dto.CategoryDTO;
 import com.revature.course.dto.CourseDTO;
 import com.revature.course.dto.LevelDTO;
 import com.revature.course.exception.DBException;
+import com.revature.course.model.Course;
 
 @RunWith(MockitoJUnitRunner.Silent.class) 
 class CourseDAOImplTest {
@@ -37,22 +38,22 @@ class CourseDAOImplTest {
 	}
 
 	@Test
-	public void testViewCourses() {
-		List<CourseDTO> coursesList=courseDAO.viewCourses("c.id", "desc", 2, 0);
+	public void testViewCourses() throws DBException {
+		List<Course> coursesList=courseDAO.viewCourses("c.id", "desc", 2, 0);
 		assertNotNull(coursesList);
 	}
 
 	@Test
-	public void testViewCourseById() {
+	public void testViewCourseById() throws DBException {
 		int id=6;
-		CourseDTO coursesList=courseDAO.viewCourseById(id);
+		Course coursesList=courseDAO.viewCourseById(id);
 		assertNotNull(coursesList);
 	}
 
 	@Test
-	public void testViewCourseByIdInvalid() {					
+	public void testViewCourseByIdInvalid() throws DBException {					
 		int id=1;
-		CourseDTO coursesList=courseDAO.viewCourseById(id);
+		Course coursesList=courseDAO.viewCourseById(id);
 		assertNull(coursesList);
 	}
 
@@ -86,23 +87,4 @@ class CourseDAOImplTest {
 	    });
 	    assertEquals("Unable to add course", exception.getMessage());
 	}
-
-	@Test
-	public void testCheckName() {
-		boolean status = false;
-		try {
-		String name="ghfdsdd";
-		status=courseDAO.checkName(name);
-	}
-		catch(DBException ex) {}
-		assertTrue(status);
-		}
-	
-	@Test
-	public void testCheckNameInvalid() {
-		String name="Invalid";
-		boolean status=courseDAO.checkName(name);
-		assertFalse(status);
-	}
-
 }

@@ -25,8 +25,11 @@ import com.revature.course.dto.LevelDTO;
 import com.revature.course.dto.ReferenceArtifactsDTO;
 import com.revature.course.dto.ReferenceUrlDTO;
 import com.revature.course.dto.UsersDTO;
+import com.revature.course.exception.DBException;
 import com.revature.course.exception.ServiceException;
 import com.revature.course.exception.ValidatorException;
+import com.revature.course.model.Category;
+import com.revature.course.model.Course;
 import com.revature.course.services.ReferenceArtifactsService;
 import com.revature.course.services.ReferenceUrlService;
 import com.revature.course.services.impl.CourseServiceImpl;
@@ -52,7 +55,7 @@ class CourseServiceImplTest {
 	}
 	
 	@Test
-	void testAddCourse() throws ServiceException, ValidatorException {
+	void testAddCourse() throws ServiceException, ValidatorException, DBException {
 		CourseDTO course=new CourseDTO();
 		course.setName("java");
 		LevelDTO level=new LevelDTO();
@@ -83,13 +86,13 @@ class CourseServiceImplTest {
 		referenceArtifactsDTO.setName("interfaces");
 		referenceArtifactsDTO.setType("Main content");
 		referenceArtifactsDTOList.add(referenceArtifactsDTO);
-		course.setReferenceArtifactsId(referenceArtifactsDTOList);
+		course.setReferenceArtifacts(referenceArtifactsDTOList);
 		referenceArtifactsDTO=new ReferenceArtifactsDTO();
 		referenceArtifactsDTO.setDescription("description for polymorphism");
 		referenceArtifactsDTO.setName("polymorphism");
 		referenceArtifactsDTO.setType("Main content");
 		referenceArtifactsDTOList.add(referenceArtifactsDTO);
-		course.setReferenceArtifactsId(referenceArtifactsDTOList);		
+		course.setReferenceArtifacts(referenceArtifactsDTOList);		
 		List<ReferenceUrlDTO> ReferenceUrlDTOList=new ArrayList<>();
 		ReferenceUrlDTO referenceUrlDTO=new ReferenceUrlDTO();
 		referenceUrlDTO.setDescription("description for interfaces");
@@ -98,7 +101,7 @@ class CourseServiceImplTest {
 		referenceUrlDTO.setTutorial(false);
 		referenceUrlDTO.setUrl("www.revature.com/interfaces");
 		ReferenceUrlDTOList.add(referenceUrlDTO);
-		course.setReferenceArtifactsId(referenceArtifactsDTOList);
+		course.setReferenceArtifacts(referenceArtifactsDTOList);
 		referenceUrlDTO=new ReferenceUrlDTO();
 		referenceUrlDTO.setDescription("description for polymorphism");
 		referenceUrlDTO.setName("polymorphism");
@@ -106,7 +109,7 @@ class CourseServiceImplTest {
 		referenceUrlDTO.setTutorial(true);
 		referenceUrlDTO.setUrl("www.revature.com/polymorphism");
 		ReferenceUrlDTOList.add(referenceUrlDTO);
-		course.setRefernceUrlId(ReferenceUrlDTOList);
+		course.setRefernceUrl(ReferenceUrlDTOList);
 		course.setIconName("C:/Users/Revature1/Downloads/rev-logo-2.png");
 		Mockito.when(courseDAO.addCourse(any())).thenReturn(1);
 		boolean result= courseService.addCourse(course);
@@ -114,12 +117,12 @@ class CourseServiceImplTest {
 	}
 
 	@Test
-	void testViewCourses() throws ServiceException {
-		List<CourseDTO> courseList=new ArrayList<CourseDTO>();
-		CourseDTO course =new CourseDTO();
+	void testViewCourses() throws ServiceException, DBException {
+		List<Course> courseList=new ArrayList<Course>();
+		Course course =new Course();
 		course.setId(9);
 		course.setName("name");
-		CategoryDTO category=new CategoryDTO();
+		Category category=new Category();
 		category.setId(1);
 		course.setCategory(category);
 		courseList.add(course);
@@ -131,7 +134,7 @@ class CourseServiceImplTest {
 	@Test
 	void testViewCoursesInvalid() throws ServiceException {	
 		Exception exception=assertThrows(ServiceException.class, () -> {
-		List<CourseDTO> courseList=new ArrayList<CourseDTO>();
+		List<Course> courseList=new ArrayList<Course>();
 		Mockito.when(courseDAO.viewCourses(anyString(),anyString(),anyInt(),anyInt())).thenReturn(courseList);
 		List<CourseDTO> courses= courseService.viewCourses("c.id","desc",2,0);
 		});
@@ -140,11 +143,11 @@ class CourseServiceImplTest {
 	
 
 	@Test
-	void testViewCourseById() throws ServiceException {
-		CourseDTO course=new CourseDTO();
+	void testViewCourseById() throws ServiceException, DBException {
+		Course course=new Course();
 		course.setId(9);
 		course.setName("name");
-		CategoryDTO category=new CategoryDTO();
+		Category category=new Category();
 		category.setId(1);
 		course.setCategory(category);
 		Mockito.when(courseDAO.viewCourseById(anyInt())).thenReturn(course);
@@ -155,7 +158,7 @@ class CourseServiceImplTest {
 	@Test
 	void testViewCourseByIdInvalid() throws ServiceException {
 		Exception exception=assertThrows(ServiceException.class, () -> {
-		CourseDTO course=null;
+		Course course=null;
 		Mockito.when(courseDAO.viewCourseById(anyInt())).thenReturn(course);
 		CourseDTO courses= courseService.viewCourseById(9);
 		});
@@ -246,13 +249,13 @@ class CourseServiceImplTest {
 	}
 	
 	@Test
-	void testDeleteCourseById() throws ServiceException {
+	void testDeleteCourseById() throws ServiceException, DBException {
 		Mockito.when(courseDAO.deleteCourseById(anyInt())).thenReturn(true);
 		boolean result= courseService.deleteCourseById(9);
 		assertTrue(result);
 	}
 	@Test
-	void testDeleteCourseByIdInvalid() throws ServiceException {
+	void testDeleteCourseByIdInvalid() throws ServiceException, DBException {
 		Mockito.when(courseDAO.deleteCourseById(anyInt())).thenReturn(false);
 		boolean result= courseService.deleteCourseById(9);
 		assertFalse(result);

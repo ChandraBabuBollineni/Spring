@@ -8,8 +8,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.sql.DataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.revature.course.configuration.DBUtils;
 import com.revature.course.dao.CourseDAO;
@@ -24,17 +29,24 @@ import com.revature.course.model.ReferenceUrl;
 
 @Repository
 public class CourseDAOImpl implements CourseDAO {
+	private static final Logger logger = LoggerFactory.getLogger(CourseDAOImpl.class);
+	private final DataSource dataSource;
+	@Autowired
+	public CourseDAOImpl(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+	
 	Connection connection = null;
 	PreparedStatement preparedStatement = null;
 	ResultSet resultSet = null;
 
-	public int addCourse(Course course) {
+	public int addCourse(Course course) throws DBException {
 		int courseId = 0;
 		int result = 0;
 		String sql = null;
 		FileInputStream fis = null;
 		try {
-			connection = DBUtils.getConnection();
+			connection = dataSource.getConnection();
 			connection.setAutoCommit(false);
 			File fs = new File("C:/Users/Revature1/Downloads/rev-logo-2.png");
 			fis = new FileInputStream(fs);
@@ -98,24 +110,34 @@ public class CourseDAOImpl implements CourseDAO {
 			preparedStatement.executeBatch();
 			connection.commit();
 		} catch (BatchUpdateException e) {
+			logger.error("Unable to add courses, exception:"+e.getMessage());
 			rollBackOperation(connection);
-			throw new DBException("Unable to add courses", e);
-		} catch (SQLException e) {
+			throw new DBException("Unable to add courses, exception:"+e.getMessage(), e);
+		} 
+		catch (SQLIntegrityConstraintViolationException e) {
+			logger.error("Unable to add courses, exception:"+e.getMessage());
 			rollBackOperation(connection);
-			throw new DBException("Unable to add courses", e);
+			throw new DBException("Unable to add course, exception:"+e.getMessage(), e);
+		}
+		catch (SQLException e) {
+			logger.error("Unable to add courses, exception:"+e.getMessage());
+			rollBackOperation(connection);
+			throw new DBException("Unable to add courses, exception:"+e.getMessage(), e);
 		} catch (Exception e) {
+			logger.error("Unable to add courses, exception:"+e.getMessage());
 			rollBackOperation(connection);
-			throw new DBException("Unable to add courses", e);
+			throw new DBException("Unable to add courses, exception:"+e.getMessage(), e);
 		} finally {
 			DBUtils.close(connection, preparedStatement, fis);
 		}
+		System.out.println(result);
 		return result;
 	}
 
-	public List<Course> viewCourses(String orderBy,String sortBy,int maxRows,int startIndex) {
+	public List<Course> viewCourses(String orderBy,String sortBy,int maxRows,int startIndex) throws DBException {
 		List<Course> courseList = new ArrayList<Course>();
 		try {
-			connection = DBUtils.getConnection();
+			connection = dataSource.getConnection();
 			String sql = "select c.id,c.name,level_id,category_id,c.tags,c.slug,c.is_level_over_ride,c.enrollment_point,c.completion_point,c.is_presignup,c.is_loggedin_via_slug,c.description,c.meta_keyword,c.meta_description,c.icon,c.icon_name,c.created_by,c.version,cu.id,cu.name,cu.email from courses as c,course_users as cu where c.created_by=cu.id order by ? LIMIT ? OFFSET ?;";
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, orderBy);
@@ -151,18 +173,22 @@ public class CourseDAOImpl implements CourseDAO {
 				course.setCreatedBy(users);
 				courseList.add(course);
 			}
+		} catch (SQLException e) {
+			logger.error("Unable to view courses, exception:"+e.getMessage());
+			throw new DBException("Unable to view courses, exception:"+e.getMessage(), e);
 		} catch (Exception e) {
-			throw new DBException("Unable to view courses", e);
+			logger.error("Unable to view courses, exception:"+e.getMessage());
+			throw new DBException("Unable to view courses, exception:"+e.getMessage(), e);
 		} finally {
-			DBUtils.close(connection, preparedStatement, resultSet);
+			DBUtils.close(connection, preparedStatement,resultSet);
 		}
 		return courseList;
 	}
 
-	public Course viewCourseById(int id) {
+	public Course viewCourseById(int id) throws DBException {
 		Course course = null;
 		try {
-			connection = DBUtils.getConnection();
+			connection = dataSource.getConnection();
 			String sql = "select c.id,c.name,level_id,category_id,c.tags,c.slug,c.is_level_over_ride,c.enrollment_point,c.completion_point,c.is_presignup,c.is_loggedin_via_slug,c.description,c.meta_keyword,c.meta_description,c.icon,c.icon_name,c.created_by,c.version,cu.id,cu.name,cu.email from courses as c,course_users as cu where c.created_by=cu.id and c.id=?;";
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setInt(1, id);
@@ -196,21 +222,27 @@ public class CourseDAOImpl implements CourseDAO {
 				course.setCreatedBy(users);
 				course.setCreatedBy(users);
 			}
+		} catch (SQLException e) {
+			logger.error("Unable to view course by id, exception:"+e.getMessage());
+			rollBackOperation(connection);
+			throw new DBException("Unable to view course by id, exception:"+e.getMessage(), e);
 		} catch (Exception e) {
-			throw new DBException("Unable to view courses", e);
+			logger.error("Unable to view course by id, exception:"+e.getMessage());
+			rollBackOperation(connection);
+			throw new DBException("Unable to view course by id, exception:"+e.getMessage(), e);
 		} finally {
 			DBUtils.close(connection, preparedStatement, resultSet);
 		}
 		return course;
 	}
 
-	@Override
-	public int updateCourse(Course course) {
+
+	public int updateCourse(Course course) throws DBException {
 		int result = 0;
 		String sql = null;
 		FileInputStream fis = null;
 		try {
-			connection = DBUtils.getConnection();
+			connection = dataSource.getConnection();
 			connection.setAutoCommit(false);
 			File fs = new File("C:/Users/Revature1/Downloads/rev-logo-2.png");
 			fis = new FileInputStream(fs);
@@ -265,15 +297,20 @@ public class CourseDAOImpl implements CourseDAO {
 			}
 			preparedStatement.executeBatch();
 			connection.commit();
-		} catch (SQLException e) {
+		}catch (BatchUpdateException e) {
+			logger.error("unable to update course, exception:"+e.getMessage());
 			rollBackOperation(connection);
-			e.printStackTrace();
-			throw new DBException("unable to update course.");
+			throw new DBException("unable to update course, exception:"+e.getMessage());
+
+		} catch (SQLException e) {
+			logger.error("unable to update course, exception:"+e.getMessage());
+			rollBackOperation(connection);
+			throw new DBException("unable to update course, exception:"+e.getMessage());
 
 		} catch (Exception e) {
+			logger.error("unable to update course, exception:"+e.getMessage());
 			rollBackOperation(connection);
-			e.printStackTrace();
-			throw new DBException("unable to update course.");
+			throw new DBException("unable to update course, exception:"+e.getMessage());
 		} finally {
 			try {
 				fis.close();
@@ -285,13 +322,13 @@ public class CourseDAOImpl implements CourseDAO {
 		return result;
 	}
 
-	@Override
-	public boolean deleteCourseById(int id) {
+	
+	public boolean deleteCourseById(int id) throws DBException {
 		String sql = null;
 		int result = 0;
 		boolean status = true;
 		try {
-			connection = DBUtils.getConnection();
+			connection = dataSource.getConnection();
 			connection.setAutoCommit(false);
 
 			sql = "delete from course_reference_artifacts where course_id=?";
@@ -313,45 +350,31 @@ public class CourseDAOImpl implements CourseDAO {
 			preparedStatement.setInt(1, id);
 			result = preparedStatement.executeUpdate();
 			if (result == 0)
-				throw new DBException("unable to delete course.");
+				throw new DBException("unable to delete course");
 
 			connection.commit();
-		} catch (Exception e) {
-			status = false;
+		} catch (SQLException e) {
+			status=false;
+			logger.error("Unable to delete course by id, exception:"+e.getMessage());
 			rollBackOperation(connection);
-			throw new DBException("Unable to delete course", e);
+			throw new DBException("Unable to delete course by id, exception:"+e.getMessage(), e);
+		} catch (Exception e) {
+			status=false;
+			logger.error("Unable to delete course by id, exception:"+e.getMessage());
+			rollBackOperation(connection);
+			throw new DBException("Unable to delete course by id, exception:"+e.getMessage(), e);
 		} finally {
 			DBUtils.close(connection, preparedStatement);
 		}
 		return status;
 	}
-
-	public void rollBackOperation(Connection connection) {
+	
+	public void rollBackOperation(Connection connection) throws DBException {
 		try {
 			connection.rollback();
 		} catch (SQLException e) {
-			throw new DBException("Unable to add course", e);
+			logger.error("Unable to roll back, exception:"+e.getMessage());
+			throw new DBException("Unable to roll back, exception:"+e.getMessage(), e);
 		}
 	}
-
-	@Override
-	public boolean checkName(String name) {
-		boolean status = false;
-		try {
-			connection = DBUtils.getConnection();
-			String sql = "select name from courses where name=?;";
-			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setString(1, name);
-			resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
-				status = true;
-			}
-		} catch (SQLException e) {
-			throw new DBException("Unable to check courses name", e);
-		} finally {
-			DBUtils.close(connection, preparedStatement, resultSet);
-		}
-		return status;
-	}
-
 }

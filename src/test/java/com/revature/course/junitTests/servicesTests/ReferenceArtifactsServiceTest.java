@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import com.revature.course.dao.impl.ReferenceArtifactsDAOImpl;
+import com.revature.course.exception.DBException;
 import com.revature.course.model.ReferenceArtifacts;
 import com.revature.course.services.impl.ReferenceArtifactsServiceImpl;
 
@@ -28,7 +29,7 @@ public class ReferenceArtifactsServiceTest {
 	}
 	*/
 	@Test
-	public void testViewReferenceArtifactsById() {
+	public void testViewReferenceArtifactsById() throws DBException {
 		List<ReferenceArtifacts> referenceArtifacts =new ArrayList<>();	
 		Mockito.when(referenceArtifactsDAO.viewReferenceArtifactsById(anyInt())).thenReturn(referenceArtifacts);
 		referenceArtifacts= referenceArtifactsDAO.viewReferenceArtifactsById(1);
@@ -36,7 +37,7 @@ public class ReferenceArtifactsServiceTest {
 	}
 	
 	@Test
-	public void testViewReferenceArtifactsByIdInvalid() {
+	public void testViewReferenceArtifactsByIdInvalid() throws DBException {
 		List<ReferenceArtifacts> referenceArtifacts=null;	
 		Mockito.when(referenceArtifactsDAO.viewReferenceArtifactsById(anyInt())).thenReturn(referenceArtifacts);
 		referenceArtifacts= referenceArtifactsDAO.viewReferenceArtifactsById(1);

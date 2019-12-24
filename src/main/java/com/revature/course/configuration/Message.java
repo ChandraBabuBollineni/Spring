@@ -6,7 +6,7 @@ import lombok.Data;
 public class Message {
 	private String infoMessage;
 	private String errorMessage;
-	private int status=200;
+	private String status="";
 
 	public Message(String error) {
 		super();

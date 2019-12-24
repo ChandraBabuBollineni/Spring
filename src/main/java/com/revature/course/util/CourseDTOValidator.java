@@ -3,7 +3,13 @@ package com.revature.course.util;
 import com.revature.course.dto.CourseDTO;
 import com.revature.course.exception.ValidatorException;
 public class CourseDTOValidator {
-
+/**
+ * 
+ * @param courseDTO
+ * @throws ValidatorException in case of invalid details
+ * @see com.revature.course.dto.CourseDTO
+ * @see com.revature.course.exception.ValidatorException
+ */
 	public void courseDtoValidator(CourseDTO courseDTO) throws ValidatorException
 {
 		if(courseDTO==null)

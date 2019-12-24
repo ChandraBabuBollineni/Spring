@@ -5,12 +5,15 @@ import java.lang.reflect.Type;
 import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.revature.course.dao.CourseDAO;
 import com.revature.course.dto.CourseDTO;
 import com.revature.course.dto.ReferenceArtifactsDTO;
 import com.revature.course.dto.ReferenceUrlDTO;
+import com.revature.course.exception.DBException;
 import com.revature.course.exception.ServiceException;
 import com.revature.course.exception.ValidatorException;
 import com.revature.course.model.Course;
@@ -23,19 +26,23 @@ import com.revature.course.util.ReferenceUrlDTOValidator;
 
 @Service
 public class CourseServiceImpl implements CourseService {
-	@Autowired
+	private static final Logger logger = LoggerFactory.getLogger(CourseServiceImpl.class);
 	private CourseDAO courseRepository;
 
-	@Autowired
 	private ReferenceArtifactsService referenceArtifactsServices;
 
-	@Autowired
 	private ReferenceUrlService referenceUrlServices;
 	
 	private ModelMapper modelMapper=new ModelMapper();
 	
 	Course course=new Course();
 	
+	   @Autowired
+	   public CourseServiceImpl(CourseDAO courseRepository,ReferenceArtifactsService referenceArtifactsServices,ReferenceUrlService referenceUrlServices) {
+	      this.courseRepository = courseRepository;
+	      this.referenceArtifactsServices=referenceArtifactsServices;
+	      this.referenceUrlServices=referenceUrlServices;      
+	   }
 	
 	public boolean addCourse(CourseDTO courseDTO) throws ServiceException, ValidatorException {
 		CourseDTOValidator courseDTOValidator = new CourseDTOValidator();
@@ -55,24 +62,28 @@ public class CourseServiceImpl implements CourseService {
 		String fileName = fs.getName();
 		courseDTO.setIcon(fs);
 		courseDTO.setIconName(fileName);
-		boolean status = courseRepository.checkName(courseDTO.getName());
-		if (status) {
-			throw new ServiceException("Name already exists.");
-		}
-		status = true;
+		boolean status = true ;
 		int result = 0;
 		modelMapper.getConfiguration().setAmbiguityIgnored(true);
 		course = modelMapper.map(courseDTO, Course.class);
+		try {
 		result = courseRepository.addCourse(course);
 		if (result == 0) {
 			status = false;
+		}
+		}
+		catch(DBException ex) 
+		{
+			logger.error(ex.getMessage());
+			throw new ServiceException(ex.getMessage());
 		}
 		return status;
 	}
 
 	public List<CourseDTO> viewCourses(String orderBy, String sortBy, int maxRows, int startIndex)
 			throws ServiceException {
-		List<CourseDTO> courseDTO;
+		List<CourseDTO> courseDTO = null;
+		try {
 		List<Course> courseList = courseRepository.viewCourses(orderBy, sortBy, maxRows, startIndex);
 		if (!courseList.isEmpty()) {
 			/*
@@ -100,7 +111,14 @@ public class CourseServiceImpl implements CourseService {
 				courseListDto.setRefernceUrl(referenceUrlDTOList);
 			}
 		} else {
+			logger.error("No records available.");
 			throw new ServiceException("No records available.");
+		}
+		}
+		catch(DBException ex) 
+		{
+			logger.error(ex.getMessage());
+			throw new ServiceException(ex.getMessage());
 		}
 		return courseDTO;
 	}
@@ -108,6 +126,7 @@ public class CourseServiceImpl implements CourseService {
 	public CourseDTO viewCourseById(int id) throws ServiceException {
 		Course course = null;
 		CourseDTO courseDTO=new CourseDTO();
+		try {
 		course = courseRepository.viewCourseById(id);	
 		if (course != null) {
 			modelMapper.getConfiguration().setAmbiguityIgnored(true);
@@ -118,7 +137,13 @@ public class CourseServiceImpl implements CourseService {
 			List<ReferenceUrlDTO> referenceUrlList = referenceUrlServices.viewReferenceUrlById(courseDTO.getId());
 			courseDTO.setRefernceUrl(referenceUrlList);
 		} else {
+			logger.error("course not available");
 			throw new ServiceException("course not available");
+		}}
+		catch(DBException ex) 
+		{
+			logger.error(ex.getMessage());
+			throw new ServiceException(ex.getMessage());
 		}
 		return courseDTO; 
 	}
@@ -134,22 +159,40 @@ public class CourseServiceImpl implements CourseService {
 		if (viewCourseById(courseDTO.getId()).getId() == courseDTO.getId()) {
 			modelMapper.getConfiguration().setAmbiguityIgnored(true);
 			course = modelMapper.map(courseDTO, Course.class);
+			try {
 			int result = courseRepository.updateCourse(course);
 			if (result == 0) {
 				status = false;
+				logger.error("unable to update course");
 				throw new ServiceException("unable to update course");
 			}
 			return status;
-		} else {
+		}
+			catch(DBException ex) 
+			{
+				logger.error(ex.getMessage());
+				throw new ServiceException(ex.getMessage());
+			}	
+		}
+			else {
+			logger.error("details not available.");
 			throw new ServiceException("details not available.");
 		}
+		
 	}
 
 	public boolean deleteCourseById(int id) throws ServiceException {
 		if (viewCourseById(id).getId() == id) {
+			try {
 		return courseRepository.deleteCourseById(id);
 	}
+			catch(DBException ex) 
+			{
+				logger.error(ex.getMessage());
+				throw new ServiceException(ex.getMessage());
+			}}
 		else {
+			logger.error("course not available.");
 			throw new ServiceException("course not available.");
 		}
 		}
